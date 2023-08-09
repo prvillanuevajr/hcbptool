@@ -4,16 +4,10 @@
  */
 package com.esspi.hcbptool.config;
 
-import com.esspi.hcbptool.Constants;
-import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import oracle.jdbc.driver.OracleDriver;
 
 /**
@@ -126,36 +120,6 @@ public class DBConfig {
         } catch (ClassNotFoundException | SQLException ex) {
             return ex.getMessage();
         }
-    }
-
-    public int apply() {
-        String[] setDbTypeCommand = {
-            Constants.setDbTypeBatchFile,
-            Constants.dbType,
-            Constants.oracleHome,
-            dbName,
-            adminId,
-            adminPassword,
-            userId,
-            userPassword,
-            host,
-            port
-        };
-        ProcessBuilder builder = new ProcessBuilder();
-        builder.directory(new File(Constants.binDirectory));
-        builder.command(setDbTypeCommand);
-        try {
-            Process process = builder.start();
-            try(Scanner scanner = new Scanner(process.getInputStream())){
-                while (scanner.hasNextLine()) {
-                    System.out.println(scanner.nextLine());
-                }
-            }
-            return process.waitFor();
-        } catch (InterruptedException | IOException ex) {
-            Logger.getLogger(DBConfig.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 99;
     }
 
     @Override

@@ -6,9 +6,6 @@ package com.esspi.hcbptool.task;
 
 import com.esspi.hcbptool.Constants;
 import com.esspi.hcbptool.config.DBConfig;
-import com.esspi.hcbptool.config.DBConfig;
-import com.esspi.hcbptool.task.Task;
-import com.esspi.hcbptool.task.Task;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
