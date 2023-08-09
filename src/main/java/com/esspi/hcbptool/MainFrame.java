@@ -153,6 +153,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setTitle("Hc Bp Tool");
         setForeground(java.awt.Color.lightGray);
+        setIconImage(new ImageIcon(Hcbptool.class.getClassLoader().getResource("presico.png")).getImage());
         setResizable(false);
 
         jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
