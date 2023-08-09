@@ -30,6 +30,10 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
+    private Map<String, JCheckBox> foldersCBMap = new HashMap<>();
+    private List<String> selectedFolders;
+    private ToolConfig config;
+
     public MainFrame() {
         initComponents();
         initSystemTray();
@@ -44,24 +48,470 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane = new javax.swing.JTabbedPane();
+        tranPanel = new javax.swing.JPanel();
+        toRepoBtn = new javax.swing.JButton();
+        toWorkspaceBtn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        foldersPanel = new javax.swing.JPanel();
+        repoPathTf = new javax.swing.JLabel();
+        workspacePathTf = new javax.swing.JLabel();
+        setDbPanel = new javax.swing.JPanel();
+        setBtnSDB = new javax.swing.JButton();
+        removeBtnSDB = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        dbConfigTable = new javax.swing.JTable();
+        statusLabelSDB = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        nameFieldADB = new javax.swing.JTextField();
+        dbNameFieldADB = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        adminIdFieldADB = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        adminPassFieldADB = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        userIdFieldADB = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        userPassFieldADB = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        hostFieldADB = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        portFieldADB = new javax.swing.JTextField();
+        addBtnADB = new javax.swing.JButton();
+        testBtnADB = new javax.swing.JButton();
+        MainMenuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        changeMenu = new javax.swing.JMenu();
+        changeRepoPathMenuItem = new javax.swing.JMenuItem();
+        changeWorkspacePathMenuItem = new javax.swing.JMenuItem();
+        saveConfigMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        exitMenuItemBtn = new javax.swing.JMenuItem();
+
         setTitle("Hc Bp Tool");
         setForeground(java.awt.Color.lightGray);
+
+        jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPaneStateChanged(evt);
+            }
+        });
+
+        toRepoBtn.setText("To Repository");
+        toRepoBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toRepoBtnActionPerformed(evt);
+            }
+        });
+
+        toWorkspaceBtn.setText("To Workspace");
+        toWorkspaceBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toWorkspaceBtnActionPerformed(evt);
+            }
+        });
+
+        foldersPanel.setLayout(new javax.swing.BoxLayout(foldersPanel, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane1.setViewportView(foldersPanel);
+
+        repoPathTf.setText("Repository :");
+
+        workspacePathTf.setText("Workspace :");
+
+        javax.swing.GroupLayout tranPanelLayout = new javax.swing.GroupLayout(tranPanel);
+        tranPanel.setLayout(tranPanelLayout);
+        tranPanelLayout.setHorizontalGroup(
+            tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tranPanelLayout.createSequentialGroup()
+                .addContainerGap(241, Short.MAX_VALUE)
+                .addComponent(toWorkspaceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(tranPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1)
+                        .addComponent(repoPathTf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(workspacePathTf, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(tranPanelLayout.createSequentialGroup()
+                            .addComponent(toRepoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 235, Short.MAX_VALUE)))
+                    .addContainerGap()))
+        );
+        tranPanelLayout.setVerticalGroup(
+            tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tranPanelLayout.createSequentialGroup()
+                .addContainerGap(209, Short.MAX_VALUE)
+                .addComponent(toWorkspaceBtn)
+                .addContainerGap())
+            .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(tranPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(repoPathTf)
+                    .addGap(11, 11, 11)
+                    .addComponent(workspacePathTf)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(toRepoBtn)
+                    .addContainerGap()))
+        );
+
+        jTabbedPane.addTab("Tran", tranPanel);
+
+        setBtnSDB.setText("Set");
+        setBtnSDB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setBtnSDBActionPerformed(evt);
+            }
+        });
+
+        removeBtnSDB.setText("Remove");
+        removeBtnSDB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeBtnSDBActionPerformed(evt);
+            }
+        });
+
+        dbConfigTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Name", "Host", "Port", "Service"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        dbConfigTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(dbConfigTable);
+        if (dbConfigTable.getColumnModel().getColumnCount() > 0) {
+            dbConfigTable.getColumnModel().getColumn(0).setResizable(false);
+            dbConfigTable.getColumnModel().getColumn(1).setResizable(false);
+            dbConfigTable.getColumnModel().getColumn(2).setResizable(false);
+            dbConfigTable.getColumnModel().getColumn(3).setResizable(false);
+        }
+
+        javax.swing.GroupLayout setDbPanelLayout = new javax.swing.GroupLayout(setDbPanel);
+        setDbPanel.setLayout(setDbPanelLayout);
+        setDbPanelLayout.setHorizontalGroup(
+            setDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(setDbPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(setDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, setDbPanelLayout.createSequentialGroup()
+                        .addComponent(statusLabelSDB)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(removeBtnSDB)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(setBtnSDB))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, setDbPanelLayout.createSequentialGroup()
+                        .addGap(0, 1, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        setDbPanelLayout.setVerticalGroup(
+            setDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(setDbPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(setDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(setBtnSDB)
+                    .addComponent(removeBtnSDB)
+                    .addComponent(statusLabelSDB))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        jTabbedPane.addTab("Set DB", setDbPanel);
+
+        jLabel1.setText("Name");
+
+        jLabel4.setText("Db Name");
+
+        jLabel2.setText("Admin Id");
+
+        jLabel5.setText("Password");
+
+        jLabel3.setText("User Id");
+
+        jLabel6.setText("Password");
+
+        jLabel7.setText("Host");
+
+        jLabel8.setText("Port");
+
+        addBtnADB.setText("Add");
+        addBtnADB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBtnADBActionPerformed(evt);
+            }
+        });
+
+        testBtnADB.setText("Test");
+        testBtnADB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testBtnADBActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(testBtnADB)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addBtnADB))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(adminIdFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nameFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(adminPassFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dbNameFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(hostFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(userIdFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(userPassFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(portFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(51, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(nameFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(dbNameFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(adminIdFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(adminPassFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(userIdFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(userPassFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(hostFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(portFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addBtnADB)
+                    .addComponent(testBtnADB))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane.addTab("Add DB", jPanel1);
+
+        fileMenu.setText("File");
+
+        changeMenu.setText("Change Path");
+
+        changeRepoPathMenuItem.setText("Repository");
+        changeRepoPathMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeRepoPathMenuItemActionPerformed(evt);
+            }
+        });
+        changeMenu.add(changeRepoPathMenuItem);
+
+        changeWorkspacePathMenuItem.setText("Workspace");
+        changeWorkspacePathMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeWorkspacePathMenuItemActionPerformed(evt);
+            }
+        });
+        changeMenu.add(changeWorkspacePathMenuItem);
+
+        fileMenu.add(changeMenu);
+
+        saveConfigMenuItem.setText("Save Config");
+        saveConfigMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveConfigMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(saveConfigMenuItem);
+        fileMenu.add(jSeparator1);
+
+        exitMenuItemBtn.setText("Exit");
+        exitMenuItemBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitMenuItemBtnActionPerformed(evt);
+            }
+        });
+        fileMenu.add(exitMenuItemBtn);
+
+        MainMenuBar.add(fileMenu);
+
+        setJMenuBar(MainMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 459, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 325, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void toRepoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toRepoBtnActionPerformed
+
+    }//GEN-LAST:event_toRepoBtnActionPerformed
+
+    private void toWorkspaceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toWorkspaceBtnActionPerformed
+
+
+    }//GEN-LAST:event_toWorkspaceBtnActionPerformed
+
+    private void exitMenuItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemBtnActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_exitMenuItemBtnActionPerformed
+
+    private void changeRepoPathMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeRepoPathMenuItemActionPerformed
+
+    }//GEN-LAST:event_changeRepoPathMenuItemActionPerformed
+
+    private void changeWorkspacePathMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeWorkspacePathMenuItemActionPerformed
+
+    }//GEN-LAST:event_changeWorkspacePathMenuItemActionPerformed
+
+    private void saveConfigMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveConfigMenuItemActionPerformed
+
+    }//GEN-LAST:event_saveConfigMenuItemActionPerformed
+
+    private void addBtnADBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnADBActionPerformed
+
+    }//GEN-LAST:event_addBtnADBActionPerformed
+
+    private void testBtnADBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testBtnADBActionPerformed
+
+    }//GEN-LAST:event_testBtnADBActionPerformed
+
+    private void jTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPaneStateChanged
+
+    }//GEN-LAST:event_jTabbedPaneStateChanged
+
+    private void removeBtnSDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnSDBActionPerformed
+
+    }//GEN-LAST:event_removeBtnSDBActionPerformed
+
+    private void setBtnSDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setBtnSDBActionPerformed
+
+    }//GEN-LAST:event_setBtnSDBActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuBar MainMenuBar;
+    private javax.swing.JButton addBtnADB;
+    private javax.swing.JTextField adminIdFieldADB;
+    private javax.swing.JTextField adminPassFieldADB;
+    private javax.swing.JMenu changeMenu;
+    private javax.swing.JMenuItem changeRepoPathMenuItem;
+    private javax.swing.JMenuItem changeWorkspacePathMenuItem;
+    private javax.swing.JTable dbConfigTable;
+    private javax.swing.JTextField dbNameFieldADB;
+    private javax.swing.JMenuItem exitMenuItemBtn;
+    private javax.swing.JMenu fileMenu;
+    private javax.swing.JPanel foldersPanel;
+    private javax.swing.JTextField hostFieldADB;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JTabbedPane jTabbedPane;
+    private javax.swing.JTextField nameFieldADB;
+    private javax.swing.JTextField portFieldADB;
+    private javax.swing.JButton removeBtnSDB;
+    private javax.swing.JLabel repoPathTf;
+    private javax.swing.JMenuItem saveConfigMenuItem;
+    private javax.swing.JButton setBtnSDB;
+    private javax.swing.JPanel setDbPanel;
+    private javax.swing.JLabel statusLabelSDB;
+    private javax.swing.JButton testBtnADB;
+    private javax.swing.JButton toRepoBtn;
+    private javax.swing.JButton toWorkspaceBtn;
+    private javax.swing.JPanel tranPanel;
+    private javax.swing.JTextField userIdFieldADB;
+    private javax.swing.JTextField userPassFieldADB;
+    private javax.swing.JLabel workspacePathTf;
     // End of variables declaration//GEN-END:variables
 
 
@@ -76,6 +526,10 @@ public class MainFrame extends javax.swing.JFrame {
             MenuItem toWorkspaceTrayMenu = new MenuItem("To Workspace");
             
             trayIcon.addActionListener((e) -> this.setVisible(Boolean.TRUE));
+            
+            toRepoTrayMenu.addActionListener((e) -> this.toRepoBtnActionPerformed(e));
+            
+            toWorkspaceTrayMenu.addActionListener((e) -> this.toWorkspaceBtnActionPerformed(e));
 
             exitTrayMenu.addActionListener(e -> System.exit(0));
 
