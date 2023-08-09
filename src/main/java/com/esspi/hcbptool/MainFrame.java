@@ -6,7 +6,6 @@ package com.esspi.hcbptool;
 
 import com.esspi.hcbptool.constants.Constants;
 import com.esspi.hcbptool.config.ToolConfig;
-import com.esspi.hcbptool.concurrency.TheExecutor;
 import com.esspi.hcbptool.config.DBConfig;
 import com.esspi.hcbptool.task.SetDbConfigTask;
 import com.esspi.hcbptool.task.TaskNotifier;
@@ -24,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -558,17 +556,8 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(setDbPanel, "Please select a config");
             return;
         }
-        if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(setDbPanel, "Apply Selected Config?", "Set DB Config", JOptionPane.YES_NO_OPTION)) {
-            JDialog dialogLoader = new JOptionPane("Applying DB Config...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}).createDialog(setDbPanel, "Applying DB Config...");
-            dialogLoader.setDefaultCloseOperation(dialogLoader.DO_NOTHING_ON_CLOSE);
-            DBConfig dbConfig = config.getDbConfigs().get(dbConfigTable.getSelectedRow());
-            SetDbConfigTask setDbConfigTask = new SetDbConfigTask(dbConfig);
-            new TaskNotifier().setFutures(setDbConfigTask.run()).setDoAfter(() -> {
-            dialogLoader.dispose();
-            JOptionPane.showMessageDialog(setDbPanel, "Set DB Done!");
-            }).listen();
-            dialogLoader.setVisible(Boolean.TRUE);
-        }
+        DBConfig dbConfig = config.getDbConfigs().get(dbConfigTable.getSelectedRow());
+        setDb(dbConfig);
     }//GEN-LAST:event_setBtnSDBActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -639,17 +628,26 @@ public class MainFrame extends javax.swing.JFrame {
             MenuItem showTrayMenu = new MenuItem("Show");
             MenuItem toRepoTrayMenu = new MenuItem("To Repository");
             MenuItem toWorkspaceTrayMenu = new MenuItem("To Workspace");
-            
+
             trayIcon.addActionListener((e) -> this.setVisible(Boolean.TRUE));
-            
+
             toRepoTrayMenu.addActionListener((e) -> this.toRepoBtnActionPerformed(e));
-            
+
             toWorkspaceTrayMenu.addActionListener((e) -> this.toWorkspaceBtnActionPerformed(e));
 
             exitTrayMenu.addActionListener(e -> System.exit(0));
 
             showTrayMenu.addActionListener(e -> this.setVisible(Boolean.TRUE));
 
+            Menu setDbMenu = new Menu("Set DB");
+            MenuItem menuItemTemp;
+            for (DBConfig dbConfig : config.getDbConfigs()) {
+                menuItemTemp = new MenuItem(dbConfig.getName());
+                setDbMenu.add(menuItemTemp);
+                menuItemTemp.addActionListener((e) -> setDb(dbConfig));
+            }
+
+            popupMenu.add(setDbMenu);
             popupMenu.add(toWorkspaceTrayMenu);
             popupMenu.add(toRepoTrayMenu);
             popupMenu.addSeparator();
@@ -659,6 +657,19 @@ public class MainFrame extends javax.swing.JFrame {
             tray.add(trayIcon);
         } catch (AWTException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void setDb(DBConfig dbConfig) {
+        if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(setDbPanel, "Apply " + dbConfig.getName(), "Set DB Config", JOptionPane.YES_NO_OPTION)) {
+            JDialog dialogLoader = new JOptionPane("Applying " + dbConfig.getName(), JOptionPane.INFORMATION_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}).createDialog(setDbPanel, "Applying DB Config...");
+            dialogLoader.setDefaultCloseOperation(dialogLoader.DO_NOTHING_ON_CLOSE);
+            SetDbConfigTask setDbConfigTask = new SetDbConfigTask(dbConfig);
+            new TaskNotifier().setFutures(setDbConfigTask.run()).setDoAfter(() -> {
+                dialogLoader.dispose();
+                JOptionPane.showMessageDialog(setDbPanel, dbConfig.getName() + " DB Applied!");
+            }).listen();
+            dialogLoader.setVisible(Boolean.TRUE);
         }
     }
 }
