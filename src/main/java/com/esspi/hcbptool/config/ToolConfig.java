@@ -5,6 +5,8 @@
 package com.esspi.hcbptool.config;
 
 import com.esspi.hcbptool.Constants;
+import com.esspi.hcbptool.Constants;
+import com.esspi.hcbptool.config.DBConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
@@ -30,9 +32,14 @@ public class ToolConfig {
     private static ToolConfig instance;
     private List<String> folders = new ArrayList<>();
     private List<String> selectedFolders = new ArrayList<>();
+    private List<DBConfig> dbConfigs = new ArrayList<>();
 
     public List<String> getFolders() {
         return folders;
+    }
+
+    public List<DBConfig> getDbConfigs() {
+        return dbConfigs;
     }
     
     public List<String> getSelectedFolders() {
