@@ -243,9 +243,6 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane3.setViewportView(dbConfigTable);
         if (dbConfigTable.getColumnModel().getColumnCount() > 0) {
             dbConfigTable.getColumnModel().getColumn(0).setResizable(false);
-            dbConfigTable.getColumnModel().getColumn(1).setResizable(false);
-            dbConfigTable.getColumnModel().getColumn(2).setResizable(false);
-            dbConfigTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout setDbPanelLayout = new javax.swing.GroupLayout(setDbPanel);
@@ -566,9 +563,7 @@ public class MainFrame extends javax.swing.JFrame {
             dialogLoader.setDefaultCloseOperation(dialogLoader.DO_NOTHING_ON_CLOSE);
             DBConfig dbConfig = config.getDbConfigs().get(dbConfigTable.getSelectedRow());
             SetDbConfigTask setDbConfigTask = new SetDbConfigTask(dbConfig);
-            Future future = TheExecutor.getInstance().getExecutorService().submit(setDbConfigTask);
-            TheExecutor.getInstance().getExecutorService().shutdown();
-            new TaskNotifier().setFutures(future).setDoAfter(() -> {
+            new TaskNotifier().setFutures(setDbConfigTask.run()).setDoAfter(() -> {
             dialogLoader.dispose();
             JOptionPane.showMessageDialog(setDbPanel, "Set DB Done!");
             }).listen();
