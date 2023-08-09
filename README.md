@@ -13,6 +13,8 @@ This tool aims to help N1 hc bp developers in managing files between repository 
 - Faster Set DB
 - Manage Database Configurations
 
+## Download
+Go to Release Branch and download the executable file.
 
 ## Demo, Screenshots
 
