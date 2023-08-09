@@ -5,7 +5,6 @@
 package com.esspi.hcbptool.task;
 
 import com.esspi.hcbptool.constants.Constants;
-import com.esspi.hcbptool.task.Task;
 import java.io.IOException;
 
 /**

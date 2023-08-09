@@ -47,4 +47,7 @@ public class Constants {
     public static final String RBCP_ATTR = "/DCOPY:DAT";
     public static final String RBCP_MT = "/MT";
     public static final String RBCP_PURGE = "/PURGE";
+    public static final String DONE_STATUS = "Done";
+    
+    
 }
