@@ -15,8 +15,7 @@ public class Constants {
     public static final String oracleHome = "C:\\WCDE_V9\\lib\\oracle";
     public static final String binDirectory = "C:\\WCDE_V9\\bin";
 
-    public static final String[] folders = {
-        "ApplePayPlugin\\ejbModule\\com",
+    public static final String[] folders = {"ApplePayPlugin\\ejbModule\\com",
         "CommerceAccelerator\\src",
         "CommerceAccelerator\\Webcontent",
         "commerceue-app\\src",
@@ -37,4 +36,11 @@ public class Constants {
         "VertexClient\\src",
         "WebSphereCommerceServerExtensionsData\\ejbModule\\com",
         "WebSphereCommerceServerExtensionsLogic\\src"};
+    public static final String REPOPATH_INITIAL_TEXT = "Repository: ";
+    public static final String WORKSPACEPATH_INITIAL_TEXT = "Workspace: ";
+    public static final String RBCP = "robocopy";
+    public static final String RBCP_ALL_SUB = "/E";
+    public static final String RBCP_ATTR = "/DCOPY:DAT";
+    public static final String RBCP_MT = "/MT";
+    public static final String RBCP_PURGE = "/PURGE";
 }
