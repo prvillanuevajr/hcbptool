@@ -11,7 +11,7 @@ package com.esspi.hcbptool;
 public class Constants {
     
     public static final String dbType = "oracle";
-    public static final String setDbTypeBatchFile = "C:\\WCDE_V9\\bin\\setdbtype2.bat";
+    public static final String setDbTypeBatchFile = "C:\\WCDE_V9\\bin\\setdbtype.bat";
     public static final String oracleHome = "C:\\WCDE_V9\\lib\\oracle";
     public static final String binDirectory = "C:\\WCDE_V9\\bin";
 

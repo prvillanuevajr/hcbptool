@@ -560,15 +560,17 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(setDbPanel, "Please select a config");
             return;
         }
-        int result = JOptionPane.showConfirmDialog(setDbPanel, "Apply Selected Config?", "Set DB Config", JOptionPane.YES_NO_OPTION);
-        if (JOptionPane.YES_OPTION == result) {
+        if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(setDbPanel, "Apply Selected Config?", "Set DB Config", JOptionPane.YES_NO_OPTION)) {
             JDialog dialogLoader = new JOptionPane("Applying DB Config...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}).createDialog(setDbPanel, "Applying DB Config...");
             dialogLoader.setDefaultCloseOperation(dialogLoader.DO_NOTHING_ON_CLOSE);
             DBConfig dbConfig = config.getDbConfigs().get(dbConfigTable.getSelectedRow());
             SetDbConfigTask setDbConfigTask = new SetDbConfigTask(dbConfig);
             Future future = TheExecutor.getInstance().getExecutorService().submit(setDbConfigTask);
             TheExecutor.getInstance().getExecutorService().shutdown();
-            new TaskNotifier().setFutures(future).setDoAfter(() -> dialogLoader.dispose()).listen();
+            new TaskNotifier().setFutures(future).setDoAfter(() -> {
+            dialogLoader.dispose();
+            JOptionPane.showMessageDialog(setDbPanel, "Set DB Done!");
+            }).listen();
             dialogLoader.setVisible(Boolean.TRUE);
         }
     }//GEN-LAST:event_setBtnSDBActionPerformed
