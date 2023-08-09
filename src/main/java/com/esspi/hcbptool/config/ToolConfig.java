@@ -4,9 +4,7 @@
  */
 package com.esspi.hcbptool.config;
 
-import com.esspi.hcbptool.Constants;
-import com.esspi.hcbptool.Constants;
-import com.esspi.hcbptool.config.DBConfig;
+import com.esspi.hcbptool.constants.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;

@@ -4,7 +4,7 @@
  */
 package com.esspi.hcbptool.task;
 
-import com.esspi.hcbptool.Constants;
+import com.esspi.hcbptool.constants.Constants;
 import com.esspi.hcbptool.config.DBConfig;
 import java.io.File;
 import java.io.IOException;

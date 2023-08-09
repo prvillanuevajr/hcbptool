@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.esspi.hcbptool;
+package com.esspi.hcbptool.constants;
 
 /**
  *
@@ -11,11 +11,15 @@ package com.esspi.hcbptool;
 public class Constants {
     
     public static final String dbType = "oracle";
+    public static final String JAVA = "java";
     public static final String setDbTypeBatchFile = "C:\\WCDE_V9\\bin\\setdbtype.bat";
-    public static final String oracleHome = "C:\\WCDE_V9\\lib\\oracle";
+    public static final String ORACLE_HOME = "C:\\WCDE_V9\\lib\\oracle";
     public static final String binDirectory = "C:\\WCDE_V9\\bin";
-
-    public static final String[] folders = {"ApplePayPlugin\\ejbModule\\com",
+    public static final String SET_DB_CLASS_PATH = "c:\\WCDE_V9\\WORKSP~1\\WC\\Enablement-BaseComponentsLogic.jar;c:\\WCDE_V9\\lib\\ToolkitConfiguration.jar;c:\\WCDE_V9\\lib\\Utilities.jar;c:\\WCDE_V9\\WORKSP~1\\WC\\Foundation-Server.jar;c:\\WCDE_V9\\WORKSP~1\\WC\\Foundation-Core.jar;c:\\WCDE_V9\\WORKSP~1\\WC\\Infrastructure-Client.jar;c:\\WCDE_V9\\WORKSP~1\\WC\\lib\\SR15SecureRandom.jar;C:\\IBM\\WEBSPH~1\\APPSER~1\\lib\\bootstrap.jar;C:\\IBM\\WEBSPH~1\\APPSER~1\\lib\\j2ee.jar;C:\\IBM\\WEBSPH~1\\APPSER~1\\plugins\\com.ibm.ws.emf.jar;C:\\IBM\\WEBSPH~1\\APPSER~1\\plugins\\com.ibm.ws.wccm.jar;C:\\IBM\\WEBSPH~1\\APPSER~1\\plugins\\com.ibm.ws.runtime.jar;C:\\IBM\\WEBSPH~1\\APPSER~1\\plugins\\com.ibm.ws.runtime.dist.jar;C:\\IBM\\WEBSPH~1\\APPSER~1\\plugins\\org.eclipse.emf.ecore.jar;C:\\IBM\\WEBSPH~1\\APPSER~1\\plugins\\org.eclipse.emf.common.jar;C:\\WCDE_V9\\lib\\oracle\\jdbc\\lib\\ojdbc8.jar";
+    public static final String SET_DB_CLASS_DATASOURCECONFIGURE = "com.ibm.commerce.toolkit.config.DatasourceConfigure";
+    
+    public static final String[] folders = {
+        "ApplePayPlugin\\ejbModule\\com",
         "CommerceAccelerator\\src",
         "CommerceAccelerator\\Webcontent",
         "commerceue-app\\src",
