@@ -15,12 +15,15 @@ import com.esspi.hcbptool.transfer.ToWorkspaceTransfer;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Menu;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,9 +35,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.table.DefaultTableModel;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -118,7 +123,7 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         dbConfigTable = new javax.swing.JTable();
         statusLabelSDB = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        addDbPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         nameFieldADB = new javax.swing.JTextField();
         dbNameFieldADB = new javax.swing.JTextField();
@@ -332,85 +337,85 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout addDbPanelLayout = new javax.swing.GroupLayout(addDbPanel);
+        addDbPanel.setLayout(addDbPanelLayout);
+        addDbPanelLayout.setHorizontalGroup(
+            addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addDbPanelLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(hostFieldADB, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                     .addComponent(userIdFieldADB))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addDbPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(testBtnADB)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(addBtnADB))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(addDbPanelLayout.createSequentialGroup()
                         .addGap(63, 63, 63)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel4)
                             .addComponent(jLabel6)
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(dbNameFieldADB, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(adminPassFieldADB, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(userPassFieldADB, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(portFieldADB))))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(addDbPanelLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(adminIdFieldADB, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                     .addComponent(nameFieldADB))
                 .addGap(306, 306, 306))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        addDbPanelLayout.setVerticalGroup(
+            addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addDbPanelLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(nameFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(dbNameFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(adminIdFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(adminPassFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(userIdFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(userPassFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(hostFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
                     .addComponent(portFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addBtnADB)
                     .addComponent(testBtnADB))
                 .addContainerGap())
         );
 
-        jTabbedPane.addTab("Add DB", jPanel1);
+        jTabbedPane.addTab("Add DB", addDbPanel);
 
         fileMenu.setText("File");
 
@@ -532,20 +537,53 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_saveConfigMenuItemActionPerformed
 
     private void addBtnADBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnADBActionPerformed
+        if (addDbHasMissingField()) return;
+        if (addDbNameIsInValid(evt)) return;
         DBConfig dBConfig = new DBConfig(nameFieldADB.getText(), dbNameFieldADB.getText(),
                 adminIdFieldADB.getText(), adminPassFieldADB.getText(),
                 userIdFieldADB.getText(), userPassFieldADB.getText(),
                 portFieldADB.getText(), hostFieldADB.getText());
         config.getDbConfigs().add(dBConfig);
+        Arrays.stream(addDbPanel.getComponents()).forEach(component -> {
+            if (component instanceof JTextField) {
+                ((JTextField) component).setText("");
+            }
+        });
+        JOptionPane.showMessageDialog(rootPane, "Config Added!");
     }//GEN-LAST:event_addBtnADBActionPerformed
+
+    private boolean addDbNameIsInValid(ActionEvent evt) throws HeadlessException {
+        boolean isInvalid = false;
+        if (config.getDbConfigs().stream().anyMatch(d -> d.getName().equalsIgnoreCase(nameFieldADB.getText()))) {
+            JOptionPane.showMessageDialog(rootPane, "Duplicate Name");
+            isInvalid = true;
+        }
+        return isInvalid;
+    }
+
+    private boolean addDbHasMissingField() {
+        boolean hasMissingField = false;
+        if (StringUtils.isEmpty(nameFieldADB.getText()) ||
+                StringUtils.isEmpty(dbNameFieldADB.getText()) ||
+                StringUtils.isEmpty(adminIdFieldADB.getText()) ||
+                StringUtils.isEmpty(adminPassFieldADB.getText()) ||
+                StringUtils.isEmpty(userIdFieldADB.getText()) ||
+                StringUtils.isEmpty(userPassFieldADB.getText()) ||
+                StringUtils.isEmpty(portFieldADB.getText()) ||
+                StringUtils.isEmpty(hostFieldADB.getText())) {
+            JOptionPane.showMessageDialog(rootPane, "All Fields Are Required");
+            hasMissingField = true;
+        }
+        return hasMissingField;
+    }
 
     private void testBtnADBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testBtnADBActionPerformed
         DBConfig dBConfig = new DBConfig(nameFieldADB.getText(), dbNameFieldADB.getText(),
                 adminIdFieldADB.getText(), adminPassFieldADB.getText(),
                 userIdFieldADB.getText(), userPassFieldADB.getText(),
                 portFieldADB.getText(), hostFieldADB.getText());
-        String testResult = dBConfig.validate();
-        JOptionPane.showMessageDialog(this, testResult);
+        String message = dBConfig.validate();
+        JOptionPane.showMessageDialog(this, message);
     }//GEN-LAST:event_testBtnADBActionPerformed
 
     private void jTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPaneStateChanged
@@ -580,6 +618,7 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MainMenuBar;
     private javax.swing.JButton addBtnADB;
+    private javax.swing.JPanel addDbPanel;
     private javax.swing.JTextField adminIdFieldADB;
     private javax.swing.JTextField adminPassFieldADB;
     private javax.swing.JMenu changeMenu;
@@ -599,7 +638,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
