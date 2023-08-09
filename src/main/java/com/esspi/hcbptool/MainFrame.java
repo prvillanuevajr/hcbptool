@@ -5,7 +5,9 @@
 package com.esspi.hcbptool;
 
 import com.esspi.hcbptool.config.ToolConfig;
+import com.esspi.hcbptool.concurrency.TheExecutor;
 import com.esspi.hcbptool.config.DBConfig;
+import com.esspi.hcbptool.task.SetDbConfigTask;
 import com.esspi.hcbptool.task.TaskNotifier;
 import com.esspi.hcbptool.transfer.Transfer;
 import com.esspi.hcbptool.transfer.ToRepositoryTransfer;
@@ -21,10 +23,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -552,7 +556,21 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_removeBtnSDBActionPerformed
 
     private void setBtnSDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setBtnSDBActionPerformed
-
+        if (dbConfigTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(setDbPanel, "Please select a config");
+            return;
+        }
+        int result = JOptionPane.showConfirmDialog(setDbPanel, "Apply Selected Config?", "Set DB Config", JOptionPane.YES_NO_OPTION);
+        if (JOptionPane.YES_OPTION == result) {
+            JDialog dialogLoader = new JOptionPane("Applying DB Config...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}).createDialog(setDbPanel, "Applying DB Config...");
+            dialogLoader.setDefaultCloseOperation(dialogLoader.DO_NOTHING_ON_CLOSE);
+            DBConfig dbConfig = config.getDbConfigs().get(dbConfigTable.getSelectedRow());
+            SetDbConfigTask setDbConfigTask = new SetDbConfigTask(dbConfig);
+            Future future = TheExecutor.getInstance().getExecutorService().submit(setDbConfigTask);
+            TheExecutor.getInstance().getExecutorService().shutdown();
+            new TaskNotifier().setFutures(future).setDoAfter(() -> dialogLoader.dispose()).listen();
+            dialogLoader.setVisible(Boolean.TRUE);
+        }
     }//GEN-LAST:event_setBtnSDBActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
