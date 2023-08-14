@@ -485,6 +485,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void toRepoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toRepoBtnActionPerformed
         if(!transferPathsAreValid()) {return;}
         if (JOptionPane.showConfirmDialog(tranPanel, "Are you sure?", "To Repository", JOptionPane.YES_NO_OPTION, 1) == JOptionPane.YES_OPTION) {
+            this.resetFoldersCheckBoxes();
             JDialog dialog = new JOptionPane("Transferring...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.NO_OPTION, null, new Object[]{}).createDialog("To Repository...");
             dialog.setLocationRelativeTo(this);
             Transfer repoTransfer = new ToRepositoryTransfer();
@@ -505,6 +506,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void toWorkspaceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toWorkspaceBtnActionPerformed
         if(!transferPathsAreValid()) {return;}
         if (JOptionPane.showConfirmDialog(tranPanel, "Are you sure?", "To Workspace", JOptionPane.YES_NO_OPTION, 1) == JOptionPane.YES_OPTION) {
+            this.resetFoldersCheckBoxes();
             JDialog dialog = new JOptionPane("Transferring...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.NO_OPTION, null, new Object[]{}).createDialog("Transferring...");
             dialog.setLocationRelativeTo(this);
             Transfer toWorkspace = new ToWorkspaceTransfer();
@@ -752,5 +754,12 @@ public class MainFrame extends javax.swing.JFrame {
             }).listen();
             dialogLoader.setVisible(Boolean.TRUE);
         }
+    }
+
+    private void resetFoldersCheckBoxes() {
+        foldersCBMap.entrySet().forEach((e) -> {
+            e.getValue().setText(e.getKey());
+            e.getValue().setForeground(Color.BLACK);
+        });
     }
 }
