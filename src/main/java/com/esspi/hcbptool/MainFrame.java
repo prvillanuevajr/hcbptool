@@ -23,6 +23,7 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -482,7 +483,11 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void toRepoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toRepoBtnActionPerformed
+        if(!transferPathsAreValid()) {return;}
         if (JOptionPane.showConfirmDialog(tranPanel, "Are you sure?", "To Repository", JOptionPane.YES_NO_OPTION, 1) == JOptionPane.YES_OPTION) {
+            this.resetFoldersCheckBoxes();
+            JDialog dialog = new JOptionPane("Transferring...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.NO_OPTION, null, new Object[]{}).createDialog("To Repository...");
+            dialog.setLocationRelativeTo(this);
             Transfer repoTransfer = new ToRepositoryTransfer();
             repoTransfer.setBeforeRun((folder) -> () -> foldersCBMap.get(folder).setForeground(Color.LIGHT_GRAY));
             repoTransfer.setDuringRun((folder) -> (message) -> foldersCBMap.get(folder).setText(message));
@@ -490,12 +495,20 @@ public class MainFrame extends javax.swing.JFrame {
                 foldersCBMap.get(folder).setForeground(new Color(24, 170, 55));
                 foldersCBMap.get(folder).setText(folder + " " + message);
             });
-            new TaskNotifier().setFutures(repoTransfer.transfer()).setDoAfter(() -> JOptionPane.showMessageDialog(this, "Done Transferring")).listen();
+            new TaskNotifier().setFutures(repoTransfer.transfer()).setDoAfter(() -> {
+                JOptionPane.showMessageDialog(this, "Done Transferring");
+                dialog.dispose();
+            }).listen();
+            dialog.setVisible(Boolean.TRUE);
         }
     }//GEN-LAST:event_toRepoBtnActionPerformed
 
     private void toWorkspaceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toWorkspaceBtnActionPerformed
+        if(!transferPathsAreValid()) {return;}
         if (JOptionPane.showConfirmDialog(tranPanel, "Are you sure?", "To Workspace", JOptionPane.YES_NO_OPTION, 1) == JOptionPane.YES_OPTION) {
+            this.resetFoldersCheckBoxes();
+            JDialog dialog = new JOptionPane("Transferring...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.NO_OPTION, null, new Object[]{}).createDialog("Transferring...");
+            dialog.setLocationRelativeTo(this);
             Transfer toWorkspace = new ToWorkspaceTransfer();
             toWorkspace.setBeforeRun((folder) -> () -> foldersCBMap.get(folder).setForeground(Color.LIGHT_GRAY));
             toWorkspace.setDuringRun((folder) -> (message) -> foldersCBMap.get(folder).setText(message));
@@ -503,11 +516,25 @@ public class MainFrame extends javax.swing.JFrame {
                 foldersCBMap.get(folder).setForeground(new Color(24, 170, 55));
                 foldersCBMap.get(folder).setText(folder + " " + message);
             });
-            new TaskNotifier().setFutures(toWorkspace.transfer()).setDoAfter(() -> JOptionPane.showMessageDialog(this, "Done Transferring")).listen();
+            new TaskNotifier().setFutures(toWorkspace.transfer()).setDoAfter(() -> {
+                dialog.dispose();
+                JOptionPane.showMessageDialog(this, "Done Transferring");
+            }).listen();
+            dialog.setVisible(Boolean.TRUE);
         }
 
     }//GEN-LAST:event_toWorkspaceBtnActionPerformed
 
+    private boolean transferPathsAreValid() {
+        Path repoPath = config.getRepoPath();
+        Path workspacePath = config.getWorkspacePath();
+        boolean isInvalid = Objects.isNull(repoPath) || Objects.isNull(workspacePath);
+        if (isInvalid) {
+            JOptionPane.showMessageDialog(this, "Set Repository and Workspace folders correctly.");
+        }
+        return !isInvalid;
+    }
+    
     private void exitMenuItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemBtnActionPerformed
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemBtnActionPerformed
@@ -727,5 +754,12 @@ public class MainFrame extends javax.swing.JFrame {
             }).listen();
             dialogLoader.setVisible(Boolean.TRUE);
         }
+    }
+
+    private void resetFoldersCheckBoxes() {
+        foldersCBMap.entrySet().forEach((e) -> {
+            e.getValue().setText(e.getKey());
+            e.getValue().setForeground(Color.BLACK);
+        });
     }
 }
