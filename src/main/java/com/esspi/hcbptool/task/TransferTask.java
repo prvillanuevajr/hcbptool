@@ -35,7 +35,7 @@ public class TransferTask extends Task {
     private String doCopy() {
         doBeforeRun();
         ProcessBuilder builder = new ProcessBuilder();
-        builder.command(Constants.RBCP, sourcePath, destPath, Constants.RBCP_ALL_SUB, Constants.RBCP_ATTR, Constants.RBCP_MT, Constants.RBCP_PURGE);
+        builder.command(Constants.RBCP, sourcePath, destPath, Constants.RBCP_ALL_SUB, Constants.RBCP_ATTR, Constants.RBCP_RETCNT, Constants.RBCP_RETWAIT, Constants.RBCP_MT, Constants.RBCP_PURGE);
         doBeforeRun();
         int result;
         try {
