@@ -114,6 +114,8 @@ public class MainFrame extends javax.swing.JFrame {
         tranPanel = new javax.swing.JPanel();
         toRepoBtn = new javax.swing.JButton();
         toWorkspaceBtn = new javax.swing.JButton();
+        tranSelectAllBtn = new javax.swing.JButton();
+        tranSelectAllBtn1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         foldersPanel = new javax.swing.JPanel();
         repoPathTf = new javax.swing.JLabel();
@@ -177,6 +179,22 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        tranSelectAllBtn.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        tranSelectAllBtn.setText("Deselect All");
+        tranSelectAllBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tranSelectAllBtnActionPerformed(evt);
+            }
+        });
+
+        tranSelectAllBtn1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        tranSelectAllBtn1.setText("Select All");
+        tranSelectAllBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tranSelectAllBtn1ActionPerformed(evt);
+            }
+        });
+
         foldersPanel.setLayout(new javax.swing.BoxLayout(foldersPanel, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(foldersPanel);
 
@@ -192,6 +210,12 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(382, Short.MAX_VALUE)
                 .addComponent(toWorkspaceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(tranPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tranSelectAllBtn1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tranSelectAllBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(tranPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -207,7 +231,11 @@ public class MainFrame extends javax.swing.JFrame {
         tranPanelLayout.setVerticalGroup(
             tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tranPanelLayout.createSequentialGroup()
-                .addContainerGap(353, Short.MAX_VALUE)
+                .addGap(67, 67, 67)
+                .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tranSelectAllBtn1)
+                    .addComponent(tranSelectAllBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
                 .addComponent(toWorkspaceBtn)
                 .addContainerGap())
             .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,8 +244,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(repoPathTf)
                     .addGap(11, 11, 11)
                     .addComponent(workspacePathTf)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(toRepoBtn)
                     .addContainerGap()))
@@ -643,6 +671,14 @@ public class MainFrame extends javax.swing.JFrame {
         setDb(dbConfig);
     }//GEN-LAST:event_setBtnSDBActionPerformed
 
+    private void tranSelectAllBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tranSelectAllBtn1ActionPerformed
+        foldersCBMap.entrySet().forEach(cb -> cb.getValue().setSelected(Boolean.TRUE));
+    }//GEN-LAST:event_tranSelectAllBtn1ActionPerformed
+
+    private void tranSelectAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tranSelectAllBtnActionPerformed
+        foldersCBMap.entrySet().forEach(cb -> cb.getValue().setSelected(Boolean.FALSE));
+    }//GEN-LAST:event_tranSelectAllBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MainMenuBar;
     private javax.swing.JButton addBtnADB;
@@ -682,6 +718,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton toRepoBtn;
     private javax.swing.JButton toWorkspaceBtn;
     private javax.swing.JPanel tranPanel;
+    private javax.swing.JButton tranSelectAllBtn;
+    private javax.swing.JButton tranSelectAllBtn1;
     private javax.swing.JTextField userIdFieldADB;
     private javax.swing.JTextField userPassFieldADB;
     private javax.swing.JLabel workspacePathTf;
