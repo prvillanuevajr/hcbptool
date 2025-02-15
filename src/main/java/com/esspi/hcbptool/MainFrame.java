@@ -54,6 +54,7 @@ public class MainFrame extends javax.swing.JFrame {
     private Map<String, JCheckBox> foldersCBMap = new HashMap<>();
     private List<String> selectedFolders;
     private ToolConfig config;
+    private Menu setDbMenu = new Menu("Set DB");
 
     public MainFrame() {
         initUIManager();
@@ -605,6 +606,7 @@ public class MainFrame extends javax.swing.JFrame {
                 ((JTextField) component).setText("");
             }
         });
+        addSetDbConfigToMenu(dBConfig);
         JOptionPane.showMessageDialog(rootPane, "Config Added!");
     }//GEN-LAST:event_addBtnADBActionPerformed
 
@@ -653,9 +655,10 @@ public class MainFrame extends javax.swing.JFrame {
             int result = JOptionPane.showConfirmDialog(setDbPanel,
                     "Remove this Config?", "Remove Set DB Config", JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
-                config.getDbConfigs().remove(dbConfigTable.getSelectedRow());
+                DBConfig dbconfig = config.getDbConfigs().remove(dbConfigTable.getSelectedRow());
                 DefaultTableModel model = (DefaultTableModel) dbConfigTable.getModel();
                 model.removeRow(dbConfigTable.getSelectedRow());
+                removeDBConfigFromSetDBTrayMenu(dbconfig);
             }
         } else {
             JOptionPane.showMessageDialog(setDbPanel, "Please select a config");
@@ -759,8 +762,7 @@ public class MainFrame extends javax.swing.JFrame {
             exitTrayMenu.addActionListener(e -> System.exit(0));
 
             showTrayMenu.addActionListener(e -> this.setVisible(Boolean.TRUE));
-
-            Menu setDbMenu = new Menu("Set DB");
+            
             MenuItem menuItemTemp;
             for (DBConfig dbConfig : config.getDbConfigs()) {
                 menuItemTemp = new MenuItem(dbConfig.getName());
@@ -799,5 +801,21 @@ public class MainFrame extends javax.swing.JFrame {
             e.getValue().setText(e.getKey());
             e.getValue().setForeground(Color.BLACK);
         });
+    }
+
+    private void addSetDbConfigToMenu(DBConfig dBConfig) {
+        MenuItem menuItemTemp = new MenuItem(dBConfig.getName());
+        setDbMenu.add(menuItemTemp);
+        menuItemTemp.addActionListener((e) -> setDb(dBConfig));
+    }
+
+    private void removeDBConfigFromSetDBTrayMenu(DBConfig dbconfig) {
+        for (int i = 0; i < setDbMenu.getItemCount(); i++) {
+            if (setDbMenu.getItem(i).getLabel().equals(dbconfig.getName())) {
+                System.out.println(setDbMenu.getItem(i).getLabel());
+                setDbMenu.remove(setDbMenu.getItem(i));
+                break;
+            }
+        }
     }
 }
