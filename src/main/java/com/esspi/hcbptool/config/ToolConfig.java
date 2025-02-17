@@ -6,6 +6,10 @@ package com.esspi.hcbptool.config;
 
 import com.esspi.hcbptool.constants.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,10 +28,13 @@ import java.util.Arrays;
  */
 public class ToolConfig {
 
-    private static Path configPath = Paths.get("hcbptoolconfig.json");
+    private static final Path CONFIG_PATH = Paths.get("hcbptoolconfig.yaml");
+    private static final Path CONFIG_PATH_JSON_FALLBACK = Paths.get("hcbptoolconfig.json");
+    private static final YAMLFactory YAML_FACTORY = new YAMLFactory().enable(YAMLGenerator.Feature.MINIMIZE_QUOTES);
+    private static ToolConfig instance;
+    private String theme = FlatLightLaf.class.getName();
     private Path workspacePath;
     private Path repoPath;
-    private static ToolConfig instance;
     private List<String> folders = new ArrayList<>();
     private List<String> selectedFolders = new ArrayList<>();
     private List<DBConfig> dbConfigs = new ArrayList<>();
@@ -74,14 +81,14 @@ public class ToolConfig {
     }
 
     private static void initConfig() {
-        File file = configPath.toFile();
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            if (Files.exists(configPath)) {
-                instance = mapper.readValue(file, ToolConfig.class);
-                return;
+            if (Files.exists(CONFIG_PATH)) {
+                instance = new ObjectMapper(YAML_FACTORY).readValue(CONFIG_PATH.toFile(), ToolConfig.class);
+            }else if(Files.exists(CONFIG_PATH_JSON_FALLBACK)){
+                instance = new ObjectMapper().readValue(CONFIG_PATH_JSON_FALLBACK.toFile(), ToolConfig.class);
+            }else{
+                instance = new ToolConfig();
             }
-            instance = new ToolConfig();
         } catch (IOException ex) {
             Logger.getLogger(ToolConfig.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -89,11 +96,23 @@ public class ToolConfig {
 
     public void saveConfig() {
         try {
-            File file = configPath.toFile();
-            new ObjectMapper().writeValue(file, instance);
+            new ObjectMapper(YAML_FACTORY).writeValue(CONFIG_PATH.toFile(), instance);
         } catch (IOException ex) {
             Logger.getLogger(ToolConfig.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public void setThemeAndSave(String name) {
+        this.setTheme(name);
+        this.saveConfig();
     }
 
 }
