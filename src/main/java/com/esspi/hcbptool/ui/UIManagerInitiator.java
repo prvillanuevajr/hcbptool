@@ -24,14 +24,14 @@ public class UIManagerInitiator {
     }
     
     public void init(){
-        UIManager.put("Button.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("Label.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("TextField.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("TextField.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("Table.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("CheckBox.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("TabbedPane.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("Menu.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("MenuItem.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
+        UIManager.put("Button.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 14)));
+        UIManager.put("Label.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 14)));
+        UIManager.put("TextField.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 14)));
+        UIManager.put("TextField.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 14)));
+        UIManager.put("Table.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 14)));
+        UIManager.put("CheckBox.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 14)));
+        UIManager.put("TabbedPane.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 14)));
+        UIManager.put("Menu.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 14)));
+        UIManager.put("MenuItem.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 14)));
     }
 }

@@ -111,10 +111,15 @@ public class MainFrame extends javax.swing.JFrame {
         toWorkspaceBtn.setText("To Workspace");
 
         tranDeSelectAllBtn.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        tranDeSelectAllBtn.setText("Deselect All");
+        tranDeSelectAllBtn.setMaximumSize(new java.awt.Dimension(21, 21));
+        tranDeSelectAllBtn.setMinimumSize(new java.awt.Dimension(21, 21));
+        tranDeSelectAllBtn.setName(""); // NOI18N
+        tranDeSelectAllBtn.setPreferredSize(new java.awt.Dimension(21, 21));
 
         tranSelectAllBtn.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        tranSelectAllBtn.setText("Select All");
+        tranSelectAllBtn.setMaximumSize(new java.awt.Dimension(21, 21));
+        tranSelectAllBtn.setMinimumSize(new java.awt.Dimension(21, 21));
+        tranSelectAllBtn.setPreferredSize(new java.awt.Dimension(21, 21));
 
         foldersPanel.setLayout(new javax.swing.BoxLayout(foldersPanel, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(foldersPanel);
@@ -133,9 +138,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(tranPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tranSelectAllBtn)
+                .addComponent(tranSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tranDeSelectAllBtn)
+                .addComponent(tranDeSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(tranPanelLayout.createSequentialGroup()
@@ -154,8 +159,8 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tranPanelLayout.createSequentialGroup()
                 .addGap(67, 67, 67)
                 .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tranSelectAllBtn)
-                    .addComponent(tranDeSelectAllBtn))
+                    .addComponent(tranSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tranDeSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
                 .addComponent(toWorkspaceBtn)
                 .addContainerGap())

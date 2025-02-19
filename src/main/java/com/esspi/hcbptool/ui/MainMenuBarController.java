@@ -9,6 +9,7 @@ import com.esspi.hcbptool.config.ToolConfig;
 import com.esspi.hcbptool.constants.Constants;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +37,7 @@ public class MainMenuBarController {
 
     public MainMenuBarController() {
         addComponentListeners();
+        addComponentIcons();
     }
 
     public void init() {
@@ -85,5 +87,17 @@ public class MainMenuBarController {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(MainMenuBarController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void addComponentIcons() {
+        MainFrame.getInstance().getFileMenu().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/file-code.svg"));
+        MainFrame.getInstance().getThemeMenu().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/circle-half-stroke.svg"));
+        MainFrame.getInstance().getLightThemeMenuItem().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/theme_light.svg"));
+        MainFrame.getInstance().getDarkThemeMenuItem().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/theme_dark.svg"));
+        MainFrame.getInstance().getChangeRepoPathMenuItem().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/folder.svg"));
+        MainFrame.getInstance().getChangeWorkspacePathMenuItem().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/folder.svg"));
+        MainFrame.getInstance().getChangeMenu().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/file-code.svg"));
+        MainFrame.getInstance().getSaveConfigMenuItem().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/floppy-disk.svg"));
+        MainFrame.getInstance().getExitMenuItemBtn().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/exit.svg"));
     }
 }

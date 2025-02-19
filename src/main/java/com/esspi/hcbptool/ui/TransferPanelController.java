@@ -11,6 +11,7 @@ import com.esspi.hcbptool.task.TaskNotifier;
 import com.esspi.hcbptool.transfer.ToRepositoryTransfer;
 import com.esspi.hcbptool.transfer.ToWorkspaceTransfer;
 import com.esspi.hcbptool.transfer.Transfer;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.nio.file.Path;
@@ -41,10 +42,8 @@ public class TransferPanelController {
     }
 
     public TransferPanelController() {
-        MainFrame.getInstance().getToRepoBtn().addActionListener(e -> toRepoBtnActionPerformed(e));
-        MainFrame.getInstance().getToWorkspaceBtn().addActionListener(e -> toWorkspaceBtnActionPerformed(e));
-        MainFrame.getInstance().getTranSelectAllBtn().addActionListener(e -> foldersCBMap.entrySet().forEach(cb -> cb.getValue().setSelected(Boolean.TRUE)));
-        MainFrame.getInstance().getTranDeSelectAllBtn().addActionListener(e -> foldersCBMap.entrySet().forEach(cb -> cb.getValue().setSelected(Boolean.FALSE)));
+        addComponentListener();
+        addComponentIcons();
     }
     
     
@@ -135,5 +134,17 @@ public class TransferPanelController {
             e.getValue().setText(e.getKey());
             e.getValue().setForeground(Color.BLACK);
         });
+    }
+
+    private void addComponentListener() {
+        MainFrame.getInstance().getToRepoBtn().addActionListener(e -> toRepoBtnActionPerformed(e));
+        MainFrame.getInstance().getToWorkspaceBtn().addActionListener(e -> toWorkspaceBtnActionPerformed(e));
+        MainFrame.getInstance().getTranSelectAllBtn().addActionListener(e -> foldersCBMap.entrySet().forEach(cb -> cb.getValue().setSelected(Boolean.TRUE)));
+        MainFrame.getInstance().getTranDeSelectAllBtn().addActionListener(e -> foldersCBMap.entrySet().forEach(cb -> cb.getValue().setSelected(Boolean.FALSE)));
+    }
+
+    private void addComponentIcons() {
+        MainFrame.getInstance().getTranSelectAllBtn().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/square-check.svg"));
+        MainFrame.getInstance().getTranDeSelectAllBtn().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/square.svg"));
     }
 }
