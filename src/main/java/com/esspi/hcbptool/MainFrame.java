@@ -4,102 +4,39 @@
  */
 package com.esspi.hcbptool;
 
-import com.esspi.hcbptool.constants.Constants;
-import com.esspi.hcbptool.config.ToolConfig;
-import com.esspi.hcbptool.config.DBConfig;
-import com.esspi.hcbptool.task.SetDbConfigTask;
-import com.esspi.hcbptool.task.TaskNotifier;
-import com.esspi.hcbptool.transfer.Transfer;
-import com.esspi.hcbptool.transfer.ToRepositoryTransfer;
-import com.esspi.hcbptool.transfer.ToWorkspaceTransfer;
-import java.awt.AWTException;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.HeadlessException;
-import java.awt.Menu;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashMap;
+import com.esspi.hcbptool.ui.AddDBPaneController;
+import com.esspi.hcbptool.ui.MainMenuBarController;
+import com.esspi.hcbptool.ui.SetDBPanelController;
+import com.esspi.hcbptool.ui.SystemTrayController;
+import com.esspi.hcbptool.ui.TransferPanelController;
+import com.esspi.hcbptool.ui.UIManagerInitiator;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.table.DefaultTableModel;
-import org.apache.commons.lang3.StringUtils;
+import lombok.Data;
+import lombok.Getter;
 
 /**
  *
  * @author presmelito.villanuev
  */
+@Data
 public class MainFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form MainFrame
      */
-    private Map<String, JCheckBox> foldersCBMap = new HashMap<>();
     private List<String> selectedFolders;
-    private ToolConfig config;
-    private Menu setDbMenu = new Menu("Set DB");
+    @Getter
+    private static MainFrame instance;
 
     public MainFrame() {
-        initUIManager();
+        instance = this;
+        UIManagerInitiator.getInstance().init();
         initComponents();
-        initTransferPanel();
-        initSystemTray();
-    }
-
-    private void initUIManager() {
-        UIManager.put("Button.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("Label.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("TextField.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("TextField.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("Table.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("CheckBox.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("TabbedPane.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("Menu.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-        UIManager.put("MenuItem.font", new FontUIResource(new Font("SegoUi", Font.PLAIN, 16)));
-    }
-
-    private void initTransferPanel() {
-        this.config = ToolConfig.getInstance();
-        selectedFolders = config.getSelectedFolders();
-
-        String repoPath = Objects.isNull(config.getRepoPath()) ? "" : config.getRepoPath().toString();
-        String wsPath = Objects.isNull(config.getWorkspacePath()) ? "" : config.getWorkspacePath().toString();
-        repoPathTf.setText(Constants.REPOPATH_INITIAL_TEXT + repoPath);
-        workspacePathTf.setText(Constants.WORKSPACEPATH_INITIAL_TEXT + wsPath);
-        System.err.println("");
-        for (String folder : config.getFolders()) {
-            JCheckBox cb = new JCheckBox();
-            cb.setName(folder);
-            cb.setVisible(Boolean.TRUE);
-            cb.setText(folder);
-            foldersCBMap.put(folder, cb);
-            foldersPanel.add(cb);
-            cb.setSelected(selectedFolders.contains(folder));
-            cb.addItemListener(e -> {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    selectedFolders.add(folder);
-                } else if (e.getStateChange() == ItemEvent.DESELECTED) {
-                    selectedFolders.remove(folder);
-                }
-            });
-        }
+        MainMenuBarController.getInstance().init();
+        TransferPanelController.getInstance().initTransferPanel();
+        SystemTrayController.getInstance().initSystemTray();
+        AddDBPaneController.getInstance().init();
     }
 
     /**
@@ -115,8 +52,8 @@ public class MainFrame extends javax.swing.JFrame {
         tranPanel = new javax.swing.JPanel();
         toRepoBtn = new javax.swing.JButton();
         toWorkspaceBtn = new javax.swing.JButton();
+        tranDeSelectAllBtn = new javax.swing.JButton();
         tranSelectAllBtn = new javax.swing.JButton();
-        tranSelectAllBtn1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         foldersPanel = new javax.swing.JPanel();
         repoPathTf = new javax.swing.JLabel();
@@ -154,6 +91,9 @@ public class MainFrame extends javax.swing.JFrame {
         saveConfigMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         exitMenuItemBtn = new javax.swing.JMenuItem();
+        themeMenu = new javax.swing.JMenu();
+        lightThemeMenuItem = new javax.swing.JMenuItem();
+        darkThemeMenuItem = new javax.swing.JMenuItem();
 
         setTitle("Hc Bp Tool");
         setForeground(java.awt.Color.lightGray);
@@ -167,34 +107,19 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         toRepoBtn.setText("To Repository");
-        toRepoBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                toRepoBtnActionPerformed(evt);
-            }
-        });
 
         toWorkspaceBtn.setText("To Workspace");
-        toWorkspaceBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                toWorkspaceBtnActionPerformed(evt);
-            }
-        });
+
+        tranDeSelectAllBtn.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        tranDeSelectAllBtn.setMaximumSize(new java.awt.Dimension(21, 21));
+        tranDeSelectAllBtn.setMinimumSize(new java.awt.Dimension(21, 21));
+        tranDeSelectAllBtn.setName(""); // NOI18N
+        tranDeSelectAllBtn.setPreferredSize(new java.awt.Dimension(21, 21));
 
         tranSelectAllBtn.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        tranSelectAllBtn.setText("Deselect All");
-        tranSelectAllBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tranSelectAllBtnActionPerformed(evt);
-            }
-        });
-
-        tranSelectAllBtn1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        tranSelectAllBtn1.setText("Select All");
-        tranSelectAllBtn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tranSelectAllBtn1ActionPerformed(evt);
-            }
-        });
+        tranSelectAllBtn.setMaximumSize(new java.awt.Dimension(21, 21));
+        tranSelectAllBtn.setMinimumSize(new java.awt.Dimension(21, 21));
+        tranSelectAllBtn.setPreferredSize(new java.awt.Dimension(21, 21));
 
         foldersPanel.setLayout(new javax.swing.BoxLayout(foldersPanel, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(foldersPanel);
@@ -213,9 +138,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(tranPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tranSelectAllBtn1)
+                .addComponent(tranSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tranSelectAllBtn)
+                .addComponent(tranDeSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(tranPanelLayout.createSequentialGroup()
@@ -234,8 +159,8 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tranPanelLayout.createSequentialGroup()
                 .addGap(67, 67, 67)
                 .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tranSelectAllBtn1)
-                    .addComponent(tranSelectAllBtn))
+                    .addComponent(tranSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tranDeSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
                 .addComponent(toWorkspaceBtn)
                 .addContainerGap())
@@ -255,18 +180,8 @@ public class MainFrame extends javax.swing.JFrame {
         jTabbedPane.addTab("Tran", tranPanel);
 
         setBtnSDB.setText("Set");
-        setBtnSDB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                setBtnSDBActionPerformed(evt);
-            }
-        });
 
         removeBtnSDB.setText("Remove");
-        removeBtnSDB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeBtnSDBActionPerformed(evt);
-            }
-        });
 
         dbConfigTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -355,18 +270,8 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel8.setText("Port");
 
         addBtnADB.setText("Add");
-        addBtnADB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addBtnADBActionPerformed(evt);
-            }
-        });
 
         testBtnADB.setText("Test");
-        testBtnADB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                testBtnADBActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout addDbPanelLayout = new javax.swing.GroupLayout(addDbPanel);
         addDbPanel.setLayout(addDbPanelLayout);
@@ -453,41 +358,31 @@ public class MainFrame extends javax.swing.JFrame {
         changeMenu.setText("Change Path");
 
         changeRepoPathMenuItem.setText("Repository");
-        changeRepoPathMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changeRepoPathMenuItemActionPerformed(evt);
-            }
-        });
         changeMenu.add(changeRepoPathMenuItem);
 
         changeWorkspacePathMenuItem.setText("Workspace");
-        changeWorkspacePathMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changeWorkspacePathMenuItemActionPerformed(evt);
-            }
-        });
         changeMenu.add(changeWorkspacePathMenuItem);
 
         fileMenu.add(changeMenu);
 
         saveConfigMenuItem.setText("Save Config");
-        saveConfigMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveConfigMenuItemActionPerformed(evt);
-            }
-        });
         fileMenu.add(saveConfigMenuItem);
         fileMenu.add(jSeparator1);
 
         exitMenuItemBtn.setText("Exit");
-        exitMenuItemBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitMenuItemBtnActionPerformed(evt);
-            }
-        });
         fileMenu.add(exitMenuItemBtn);
 
         MainMenuBar.add(fileMenu);
+
+        themeMenu.setText("Theme");
+
+        lightThemeMenuItem.setText("Light");
+        themeMenu.add(lightThemeMenuItem);
+
+        darkThemeMenuItem.setText("Dark");
+        themeMenu.add(darkThemeMenuItem);
+
+        MainMenuBar.add(themeMenu);
 
         setJMenuBar(MainMenuBar);
 
@@ -511,176 +406,12 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void toRepoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toRepoBtnActionPerformed
-        if(!transferPathsAreValid()) {return;}
-        if (JOptionPane.showConfirmDialog(tranPanel, "Are you sure?", "To Repository", JOptionPane.YES_NO_OPTION, 1) == JOptionPane.YES_OPTION) {
-            this.resetFoldersCheckBoxes();
-            JDialog dialog = new JOptionPane("Transferring...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.NO_OPTION, null, new Object[]{}).createDialog("To Repository...");
-            dialog.setLocationRelativeTo(this);
-            Transfer repoTransfer = new ToRepositoryTransfer();
-            repoTransfer.setBeforeRun((folder) -> () -> foldersCBMap.get(folder).setForeground(Color.LIGHT_GRAY));
-            repoTransfer.setDuringRun((folder) -> (message) -> foldersCBMap.get(folder).setText(message));
-            repoTransfer.setOnSuccess((folder) -> (message) -> {
-                foldersCBMap.get(folder).setForeground(new Color(24, 170, 55));
-                foldersCBMap.get(folder).setText(folder + " " + message);
-            });
-            new TaskNotifier().setFutures(repoTransfer.transfer()).setDoAfter(() -> {
-                JOptionPane.showMessageDialog(this, "Done Transferring");
-                dialog.dispose();
-            }).listen();
-            dialog.setVisible(Boolean.TRUE);
-        }
-    }//GEN-LAST:event_toRepoBtnActionPerformed
-
-    private void toWorkspaceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toWorkspaceBtnActionPerformed
-        if(!transferPathsAreValid()) {return;}
-        if (JOptionPane.showConfirmDialog(tranPanel, "Are you sure?", "To Workspace", JOptionPane.YES_NO_OPTION, 1) == JOptionPane.YES_OPTION) {
-            this.resetFoldersCheckBoxes();
-            JDialog dialog = new JOptionPane("Transferring...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.NO_OPTION, null, new Object[]{}).createDialog("Transferring...");
-            dialog.setLocationRelativeTo(this);
-            Transfer toWorkspace = new ToWorkspaceTransfer();
-            toWorkspace.setBeforeRun((folder) -> () -> foldersCBMap.get(folder).setForeground(Color.LIGHT_GRAY));
-            toWorkspace.setDuringRun((folder) -> (message) -> foldersCBMap.get(folder).setText(message));
-            toWorkspace.setOnSuccess((folder) -> (message) -> {
-                foldersCBMap.get(folder).setForeground(new Color(24, 170, 55));
-                foldersCBMap.get(folder).setText(folder + " " + message);
-            });
-            new TaskNotifier().setFutures(toWorkspace.transfer()).setDoAfter(() -> {
-                dialog.dispose();
-                JOptionPane.showMessageDialog(this, "Done Transferring");
-            }).listen();
-            dialog.setVisible(Boolean.TRUE);
-        }
-
-    }//GEN-LAST:event_toWorkspaceBtnActionPerformed
-
-    private boolean transferPathsAreValid() {
-        Path repoPath = config.getRepoPath();
-        Path workspacePath = config.getWorkspacePath();
-        boolean isInvalid = Objects.isNull(repoPath) || Objects.isNull(workspacePath);
-        if (isInvalid) {
-            JOptionPane.showMessageDialog(this, "Set Repository and Workspace folders correctly.");
-        }
-        return !isInvalid;
-    }
-    
-    private void exitMenuItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemBtnActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_exitMenuItemBtnActionPerformed
-
-    private void changeRepoPathMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeRepoPathMenuItemActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int option = fileChooser.showDialog(this, "Select");
-        if (JFileChooser.APPROVE_OPTION == option) {
-            ToolConfig.getInstance().setRepoPath(fileChooser.getSelectedFile().toPath());
-            repoPathTf.setText(Constants.REPOPATH_INITIAL_TEXT + ToolConfig.getInstance().getRepoPath().toString());
-        }
-    }//GEN-LAST:event_changeRepoPathMenuItemActionPerformed
-
-    private void changeWorkspacePathMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeWorkspacePathMenuItemActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int option = fileChooser.showDialog(this, "Select");
-        if (JFileChooser.APPROVE_OPTION == option) {
-            ToolConfig.getInstance().setWorkspacePath(fileChooser.getSelectedFile().toPath());
-            workspacePathTf.setText(Constants.WORKSPACEPATH_INITIAL_TEXT + ToolConfig.getInstance().getWorkspacePath().toString());
-        }
-    }//GEN-LAST:event_changeWorkspacePathMenuItemActionPerformed
-
-    private void saveConfigMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveConfigMenuItemActionPerformed
-        config.saveConfig();
-        JOptionPane.showMessageDialog(this, "Saved!");
-    }//GEN-LAST:event_saveConfigMenuItemActionPerformed
-
-    private void addBtnADBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnADBActionPerformed
-        if (addDbHasMissingField()) return;
-        if (addDbNameIsInValid(evt)) return;
-        DBConfig dBConfig = new DBConfig(nameFieldADB.getText(), dbNameFieldADB.getText(),
-                adminIdFieldADB.getText(), adminPassFieldADB.getText(),
-                userIdFieldADB.getText(), userPassFieldADB.getText(),
-                portFieldADB.getText(), hostFieldADB.getText());
-        config.getDbConfigs().add(dBConfig);
-        Arrays.stream(addDbPanel.getComponents()).forEach(component -> {
-            if (component instanceof JTextField) {
-                ((JTextField) component).setText("");
-            }
-        });
-        addSetDbConfigToMenu(dBConfig);
-        JOptionPane.showMessageDialog(rootPane, "Config Added!");
-    }//GEN-LAST:event_addBtnADBActionPerformed
-
-    private boolean addDbNameIsInValid(ActionEvent evt) throws HeadlessException {
-        boolean isInvalid = false;
-        if (config.getDbConfigs().stream().anyMatch(d -> d.getName().equalsIgnoreCase(nameFieldADB.getText()))) {
-            JOptionPane.showMessageDialog(rootPane, "Duplicate Name");
-            isInvalid = true;
-        }
-        return isInvalid;
-    }
-
-    private boolean addDbHasMissingField() {
-        boolean hasMissingField = false;
-        if (StringUtils.isEmpty(nameFieldADB.getText()) ||
-                StringUtils.isEmpty(dbNameFieldADB.getText()) ||
-                StringUtils.isEmpty(adminIdFieldADB.getText()) ||
-                StringUtils.isEmpty(adminPassFieldADB.getText()) ||
-                StringUtils.isEmpty(userIdFieldADB.getText()) ||
-                StringUtils.isEmpty(userPassFieldADB.getText()) ||
-                StringUtils.isEmpty(portFieldADB.getText()) ||
-                StringUtils.isEmpty(hostFieldADB.getText())) {
-            JOptionPane.showMessageDialog(rootPane, "All Fields Are Required");
-            hasMissingField = true;
-        }
-        return hasMissingField;
-    }
-
-    private void testBtnADBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testBtnADBActionPerformed
-        DBConfig dBConfig = new DBConfig(nameFieldADB.getText(), dbNameFieldADB.getText(),
-                adminIdFieldADB.getText(), adminPassFieldADB.getText(),
-                userIdFieldADB.getText(), userPassFieldADB.getText(),
-                portFieldADB.getText(), hostFieldADB.getText());
-        String message = dBConfig.validate();
-        JOptionPane.showMessageDialog(this, message);
-    }//GEN-LAST:event_testBtnADBActionPerformed
 
     private void jTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPaneStateChanged
         if (jTabbedPane.getSelectedIndex() == 1) {
-            buildSetDbPanel();
+            SetDBPanelController.getInstance().buildSetDbPanel();
         }
     }//GEN-LAST:event_jTabbedPaneStateChanged
-
-    private void removeBtnSDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnSDBActionPerformed
-        if (dbConfigTable.getSelectedRow() != -1) {
-            int result = JOptionPane.showConfirmDialog(setDbPanel,
-                    "Remove this Config?", "Remove Set DB Config", JOptionPane.YES_NO_OPTION);
-            if (result == JOptionPane.YES_OPTION) {
-                DBConfig dbconfig = config.getDbConfigs().remove(dbConfigTable.getSelectedRow());
-                DefaultTableModel model = (DefaultTableModel) dbConfigTable.getModel();
-                model.removeRow(dbConfigTable.getSelectedRow());
-                removeDBConfigFromSetDBTrayMenu(dbconfig);
-            }
-        } else {
-            JOptionPane.showMessageDialog(setDbPanel, "Please select a config");
-        }
-    }//GEN-LAST:event_removeBtnSDBActionPerformed
-
-    private void setBtnSDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setBtnSDBActionPerformed
-        if (dbConfigTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(setDbPanel, "Please select a config");
-            return;
-        }
-        DBConfig dbConfig = config.getDbConfigs().get(dbConfigTable.getSelectedRow());
-        setDb(dbConfig);
-    }//GEN-LAST:event_setBtnSDBActionPerformed
-
-    private void tranSelectAllBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tranSelectAllBtn1ActionPerformed
-        foldersCBMap.entrySet().forEach(cb -> cb.getValue().setSelected(Boolean.TRUE));
-    }//GEN-LAST:event_tranSelectAllBtn1ActionPerformed
-
-    private void tranSelectAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tranSelectAllBtnActionPerformed
-        foldersCBMap.entrySet().forEach(cb -> cb.getValue().setSelected(Boolean.FALSE));
-    }//GEN-LAST:event_tranSelectAllBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MainMenuBar;
@@ -691,6 +422,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu changeMenu;
     private javax.swing.JMenuItem changeRepoPathMenuItem;
     private javax.swing.JMenuItem changeWorkspacePathMenuItem;
+    private javax.swing.JMenuItem darkThemeMenuItem;
     private javax.swing.JTable dbConfigTable;
     private javax.swing.JTextField dbNameFieldADB;
     private javax.swing.JMenuItem exitMenuItemBtn;
@@ -709,6 +441,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane;
+    private javax.swing.JMenuItem lightThemeMenuItem;
     private javax.swing.JTextField nameFieldADB;
     private javax.swing.JTextField portFieldADB;
     private javax.swing.JButton removeBtnSDB;
@@ -718,104 +451,15 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel setDbPanel;
     private javax.swing.JLabel statusLabelSDB;
     private javax.swing.JButton testBtnADB;
+    private javax.swing.JMenu themeMenu;
     private javax.swing.JButton toRepoBtn;
     private javax.swing.JButton toWorkspaceBtn;
+    private javax.swing.JButton tranDeSelectAllBtn;
     private javax.swing.JPanel tranPanel;
     private javax.swing.JButton tranSelectAllBtn;
-    private javax.swing.JButton tranSelectAllBtn1;
     private javax.swing.JTextField userIdFieldADB;
     private javax.swing.JTextField userPassFieldADB;
     private javax.swing.JLabel workspacePathTf;
     // End of variables declaration//GEN-END:variables
 
-    private void buildSetDbPanel() {
-        String[] dbs = new String[config.getDbConfigs().size()];
-        DefaultTableModel model = (DefaultTableModel) dbConfigTable.getModel();
-        ((DefaultTableModel) model).setRowCount(0);
-        for (int i = 0; i < config.getDbConfigs().size(); i++) {
-            dbs[i] = config.getDbConfigs().get(i).toString();
-            model.addRow(new String[]{
-                config.getDbConfigs().get(i).getName(),
-                config.getDbConfigs().get(i).getHost(),
-                config.getDbConfigs().get(i).getPort(),
-                config.getDbConfigs().get(i).getDbName(),});
-        }
-        dbConfigTable.setModel(model);
-    }
-
-    private void initSystemTray() {
-        try {
-            SystemTray tray = SystemTray.getSystemTray();
-            TrayIcon trayIcon = new TrayIcon(new ImageIcon(Hcbptool.class.getClassLoader().getResource("presico.png")).getImage());
-            PopupMenu popupMenu = new PopupMenu();
-            MenuItem exitTrayMenu = new MenuItem("Exit");
-            MenuItem showTrayMenu = new MenuItem("Show");
-            MenuItem toRepoTrayMenu = new MenuItem("To Repository");
-            MenuItem toWorkspaceTrayMenu = new MenuItem("To Workspace");
-
-            trayIcon.addActionListener((e) -> this.setVisible(Boolean.TRUE));
-
-            toRepoTrayMenu.addActionListener((e) -> this.toRepoBtnActionPerformed(e));
-
-            toWorkspaceTrayMenu.addActionListener((e) -> this.toWorkspaceBtnActionPerformed(e));
-
-            exitTrayMenu.addActionListener(e -> System.exit(0));
-
-            showTrayMenu.addActionListener(e -> this.setVisible(Boolean.TRUE));
-            
-            MenuItem menuItemTemp;
-            for (DBConfig dbConfig : config.getDbConfigs()) {
-                menuItemTemp = new MenuItem(dbConfig.getName());
-                setDbMenu.add(menuItemTemp);
-                menuItemTemp.addActionListener((e) -> setDb(dbConfig));
-            }
-
-            popupMenu.add(setDbMenu);
-            popupMenu.add(toWorkspaceTrayMenu);
-            popupMenu.add(toRepoTrayMenu);
-            popupMenu.addSeparator();
-            popupMenu.add(showTrayMenu);
-            popupMenu.add(exitTrayMenu);
-            trayIcon.setPopupMenu(popupMenu);
-            tray.add(trayIcon);
-        } catch (AWTException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void setDb(DBConfig dbConfig) {
-        if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(setDbPanel, "Apply " + dbConfig.getName(), "Set DB Config", JOptionPane.YES_NO_OPTION)) {
-            JDialog dialogLoader = new JOptionPane("Applying " + dbConfig.getName(), JOptionPane.INFORMATION_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}).createDialog(setDbPanel, "Applying DB Config...");
-            dialogLoader.setDefaultCloseOperation(dialogLoader.DO_NOTHING_ON_CLOSE);
-            SetDbConfigTask setDbConfigTask = new SetDbConfigTask(dbConfig);
-            new TaskNotifier().setFutures(setDbConfigTask.run()).setDoAfter(() -> {
-                dialogLoader.dispose();
-                JOptionPane.showMessageDialog(setDbPanel, dbConfig.getName() + " DB Applied!");
-            }).listen();
-            dialogLoader.setVisible(Boolean.TRUE);
-        }
-    }
-
-    private void resetFoldersCheckBoxes() {
-        foldersCBMap.entrySet().forEach((e) -> {
-            e.getValue().setText(e.getKey());
-            e.getValue().setForeground(Color.BLACK);
-        });
-    }
-
-    private void addSetDbConfigToMenu(DBConfig dBConfig) {
-        MenuItem menuItemTemp = new MenuItem(dBConfig.getName());
-        setDbMenu.add(menuItemTemp);
-        menuItemTemp.addActionListener((e) -> setDb(dBConfig));
-    }
-
-    private void removeDBConfigFromSetDBTrayMenu(DBConfig dbconfig) {
-        for (int i = 0; i < setDbMenu.getItemCount(); i++) {
-            if (setDbMenu.getItem(i).getLabel().equals(dbconfig.getName())) {
-                System.out.println(setDbMenu.getItem(i).getLabel());
-                setDbMenu.remove(setDbMenu.getItem(i));
-                break;
-            }
-        }
-    }
 }
