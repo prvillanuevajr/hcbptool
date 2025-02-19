@@ -8,9 +8,7 @@ import com.esspi.hcbptool.constants.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
-import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,11 +19,13 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Arrays;
+import lombok.Data;
 
 /**
  *
  * @author presmelito.villanuev
  */
+@Data
 public class ToolConfig {
 
     private static final Path CONFIG_PATH = Paths.get("hcbptoolconfig.yaml");
@@ -38,21 +38,7 @@ public class ToolConfig {
     private List<String> folders = new ArrayList<>();
     private List<String> selectedFolders = new ArrayList<>();
     private List<DBConfig> dbConfigs = new ArrayList<>();
-
-    public List<String> getFolders() {
-        return folders;
-    }
-
-    public List<DBConfig> getDbConfigs() {
-        return dbConfigs;
-    }
     
-    public List<String> getSelectedFolders() {
-        return selectedFolders;
-    }
-    
-    
-
     public static ToolConfig getInstance() {
         if (Objects.isNull(instance)) {
             initConfig();
@@ -62,22 +48,6 @@ public class ToolConfig {
 
     private ToolConfig() {
         this.folders = Arrays.asList(Constants.folders);
-    }
-
-    public Path getWorkspacePath() {
-        return workspacePath;
-    }
-
-    public void setWorkspacePath(Path workspacePath) {
-        this.workspacePath = workspacePath;
-    }
-
-    public Path getRepoPath() {
-        return repoPath;
-    }
-
-    public void setRepoPath(Path repoPath) {
-        this.repoPath = repoPath;
     }
 
     private static void initConfig() {
@@ -100,14 +70,6 @@ public class ToolConfig {
         } catch (IOException ex) {
             Logger.getLogger(ToolConfig.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
     }
 
     public void setThemeAndSave(String name) {

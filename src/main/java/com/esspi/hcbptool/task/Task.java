@@ -8,34 +8,20 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;
+import lombok.Setter;
 
 /**
  *
  * @author presmelito.villanuev
  */
+@Setter
 public abstract class Task implements Callable<String> {
 
     private Runnable beforeRun;
     private Consumer<String> duringRun;
     private Consumer<String> onSuccess;
     private Consumer<String> onError;
-
-    public void setBeforeRun(Runnable beforeRun) {
-        this.beforeRun = beforeRun;
-    }
-
-    public void setDuringRun(Consumer<String> duringRun) {
-        this.duringRun = duringRun;
-    }
-
-    public void setOnSuccess(Consumer<String> onSuccess) {
-        this.onSuccess = onSuccess;
-    }
-
-    public void setOnError(Consumer<String> onError) {
-        this.onError = onError;
-    }
-
+    
     protected void doBeforeRun() {
         if (Objects.nonNull(this.beforeRun)) {
             this.beforeRun.run();
