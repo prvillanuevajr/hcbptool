@@ -30,9 +30,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Save Config"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveConfigMenuItemActionPerformed"/>
-              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
             </MenuItem>
@@ -40,9 +37,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Exit"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exitMenuItemBtnActionPerformed"/>
-              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

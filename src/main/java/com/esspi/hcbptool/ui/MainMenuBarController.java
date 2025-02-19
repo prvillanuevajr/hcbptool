@@ -9,6 +9,7 @@ import com.esspi.hcbptool.config.ToolConfig;
 import com.esspi.hcbptool.constants.Constants;
 import java.util.Objects;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -57,5 +58,12 @@ public class MainMenuBarController {
         MainFrame.getInstance().getSaveConfigMenuItem().setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         MainFrame.getInstance().getChangeWorkspacePathMenuItem().addActionListener(evt -> changeWorkspacePathListener());
         MainFrame.getInstance().getChangeRepoPathMenuItem().addActionListener(evt -> changeRepoPathListener());
+        MainFrame.getInstance().getExitMenuItemBtn().addActionListener(evt -> System.exit(0));
+        MainFrame.getInstance().getSaveConfigMenuItem().addActionListener(evt -> saveConfigListener());
+    }
+    
+    public void saveConfigListener(){
+        ToolConfig.getInstance().saveConfig();
+        JOptionPane.showMessageDialog(MainFrame.getInstance(), "Saved!");
     }
 }

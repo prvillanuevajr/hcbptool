@@ -4,8 +4,6 @@
  */
 package com.esspi.hcbptool;
 
-import com.esspi.hcbptool.constants.Constants;
-import com.esspi.hcbptool.config.ToolConfig;
 import com.esspi.hcbptool.ui.AddDBPaneController;
 import com.esspi.hcbptool.ui.MainMenuBarController;
 import com.esspi.hcbptool.ui.SetDBPanelController;
@@ -13,8 +11,6 @@ import com.esspi.hcbptool.ui.SystemTrayController;
 import com.esspi.hcbptool.ui.TransferPanelController;
 import java.util.List;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import lombok.Data;
 import lombok.Getter;
 
@@ -360,20 +356,10 @@ public class MainFrame extends javax.swing.JFrame {
         fileMenu.add(changeMenu);
 
         saveConfigMenuItem.setText("Save Config");
-        saveConfigMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveConfigMenuItemActionPerformed(evt);
-            }
-        });
         fileMenu.add(saveConfigMenuItem);
         fileMenu.add(jSeparator1);
 
         exitMenuItemBtn.setText("Exit");
-        exitMenuItemBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitMenuItemBtnActionPerformed(evt);
-            }
-        });
         fileMenu.add(exitMenuItemBtn);
 
         MainMenuBar.add(fileMenu);
@@ -401,15 +387,6 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    private void exitMenuItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemBtnActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_exitMenuItemBtnActionPerformed
-
-    private void saveConfigMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveConfigMenuItemActionPerformed
-        ToolConfig.getInstance().saveConfig();
-        JOptionPane.showMessageDialog(this, "Saved!");
-    }//GEN-LAST:event_saveConfigMenuItemActionPerformed
-
 
     private void jTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPaneStateChanged
         if (jTabbedPane.getSelectedIndex() == 1) {
