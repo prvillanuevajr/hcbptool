@@ -9,6 +9,7 @@ import com.esspi.hcbptool.ui.MainMenuBarController;
 import com.esspi.hcbptool.ui.SetDBPanelController;
 import com.esspi.hcbptool.ui.SystemTrayController;
 import com.esspi.hcbptool.ui.TransferPanelController;
+import com.esspi.hcbptool.ui.UIManagerInitiator;
 import java.util.List;
 import javax.swing.ImageIcon;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public MainFrame() {
         instance = this;
+        UIManagerInitiator.getInstance().init();
         initComponents();
         MainMenuBarController.getInstance().init();
         TransferPanelController.getInstance().initTransferPanel();
@@ -89,6 +91,9 @@ public class MainFrame extends javax.swing.JFrame {
         saveConfigMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         exitMenuItemBtn = new javax.swing.JMenuItem();
+        themeMenu = new javax.swing.JMenu();
+        lightThemeMenuItem = new javax.swing.JMenuItem();
+        darkThemeMenuItem = new javax.swing.JMenuItem();
 
         setTitle("Hc Bp Tool");
         setForeground(java.awt.Color.lightGray);
@@ -364,6 +369,16 @@ public class MainFrame extends javax.swing.JFrame {
 
         MainMenuBar.add(fileMenu);
 
+        themeMenu.setText("Theme");
+
+        lightThemeMenuItem.setText("Light");
+        themeMenu.add(lightThemeMenuItem);
+
+        darkThemeMenuItem.setText("Dark");
+        themeMenu.add(darkThemeMenuItem);
+
+        MainMenuBar.add(themeMenu);
+
         setJMenuBar(MainMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -386,7 +401,6 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
 
     private void jTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPaneStateChanged
         if (jTabbedPane.getSelectedIndex() == 1) {
@@ -403,6 +417,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu changeMenu;
     private javax.swing.JMenuItem changeRepoPathMenuItem;
     private javax.swing.JMenuItem changeWorkspacePathMenuItem;
+    private javax.swing.JMenuItem darkThemeMenuItem;
     private javax.swing.JTable dbConfigTable;
     private javax.swing.JTextField dbNameFieldADB;
     private javax.swing.JMenuItem exitMenuItemBtn;
@@ -421,6 +436,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane;
+    private javax.swing.JMenuItem lightThemeMenuItem;
     private javax.swing.JTextField nameFieldADB;
     private javax.swing.JTextField portFieldADB;
     private javax.swing.JButton removeBtnSDB;
@@ -430,6 +446,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel setDbPanel;
     private javax.swing.JLabel statusLabelSDB;
     private javax.swing.JButton testBtnADB;
+    private javax.swing.JMenu themeMenu;
     private javax.swing.JButton toRepoBtn;
     private javax.swing.JButton toWorkspaceBtn;
     private javax.swing.JButton tranDeSelectAllBtn;

@@ -7,9 +7,17 @@ package com.esspi.hcbptool.ui;
 import com.esspi.hcbptool.MainFrame;
 import com.esspi.hcbptool.config.ToolConfig;
 import com.esspi.hcbptool.constants.Constants;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -60,10 +68,22 @@ public class MainMenuBarController {
         MainFrame.getInstance().getChangeRepoPathMenuItem().addActionListener(evt -> changeRepoPathListener());
         MainFrame.getInstance().getExitMenuItemBtn().addActionListener(evt -> System.exit(0));
         MainFrame.getInstance().getSaveConfigMenuItem().addActionListener(evt -> saveConfigListener());
+        MainFrame.getInstance().getLightThemeMenuItem().addActionListener(e -> setTheme(new FlatLightLaf()));
+        MainFrame.getInstance().getDarkThemeMenuItem().addActionListener(e -> setTheme(new FlatDarkLaf()));
     }
     
     public void saveConfigListener(){
         ToolConfig.getInstance().saveConfig();
         JOptionPane.showMessageDialog(MainFrame.getInstance(), "Saved!");
+    }
+    
+    public void setTheme(LookAndFeel laf){
+        try {
+            UIManager.setLookAndFeel(laf);
+            ToolConfig.getInstance().setTheme(laf.getClass().getName());
+            SwingUtilities.updateComponentTreeUI(MainFrame.getInstance());
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(MainMenuBarController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
