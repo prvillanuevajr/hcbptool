@@ -5,6 +5,7 @@
 package com.esspi.hcbptool;
 
 import com.esspi.hcbptool.ui.AddDBPaneController;
+import com.esspi.hcbptool.ui.GITPanelUIManager;
 import com.esspi.hcbptool.ui.MainMenuBarController;
 import com.esspi.hcbptool.ui.SetDBPanelController;
 import com.esspi.hcbptool.ui.SystemTrayController;
@@ -12,8 +13,8 @@ import com.esspi.hcbptool.ui.TransferPanelController;
 import com.esspi.hcbptool.ui.UIManagerInitiator;
 import java.util.List;
 import javax.swing.ImageIcon;
-import lombok.Data;
 import lombok.Getter;
+import lombok.Data;
 
 /**
  *
@@ -26,6 +27,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     private List<String> selectedFolders;
+    
     @Getter
     private static MainFrame instance;
 
@@ -37,6 +39,7 @@ public class MainFrame extends javax.swing.JFrame {
         TransferPanelController.getInstance().initTransferPanel();
         SystemTrayController.getInstance().initSystemTray();
         AddDBPaneController.getInstance().init();
+        GITPanelUIManager.getInstance().init();
     }
 
     /**
@@ -47,8 +50,9 @@ public class MainFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        jTabbedPane = new javax.swing.JTabbedPane();
+        gitTabbedPane = new javax.swing.JTabbedPane();
         tranPanel = new javax.swing.JPanel();
         toRepoBtn = new javax.swing.JButton();
         toWorkspaceBtn = new javax.swing.JButton();
@@ -83,6 +87,13 @@ public class MainFrame extends javax.swing.JFrame {
         portFieldADB = new javax.swing.JTextField();
         addBtnADB = new javax.swing.JButton();
         testBtnADB = new javax.swing.JButton();
+        gitPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        gitFileStagedList = new javax.swing.JList<com.esspi.hcbptool.git.GitFile>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        gitFileUnstagedList = new javax.swing.JList<>();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        gitDiffTextPane = new javax.swing.JTextPane();
         MainMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         changeMenu = new javax.swing.JMenu();
@@ -100,9 +111,9 @@ public class MainFrame extends javax.swing.JFrame {
         setIconImage(new ImageIcon(Hcbptool.class.getClassLoader().getResource("presico.png")).getImage());
         setResizable(false);
 
-        jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+        gitTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jTabbedPaneStateChanged(evt);
+                gitTabbedPaneStateChanged(evt);
             }
         });
 
@@ -133,7 +144,7 @@ public class MainFrame extends javax.swing.JFrame {
         tranPanelLayout.setHorizontalGroup(
             tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tranPanelLayout.createSequentialGroup()
-                .addContainerGap(382, Short.MAX_VALUE)
+                .addContainerGap(586, Short.MAX_VALUE)
                 .addComponent(toWorkspaceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(tranPanelLayout.createSequentialGroup()
@@ -151,7 +162,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(workspacePathTf, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(tranPanelLayout.createSequentialGroup()
                             .addComponent(toRepoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 376, Short.MAX_VALUE)))
+                            .addGap(0, 580, Short.MAX_VALUE)))
                     .addContainerGap()))
         );
         tranPanelLayout.setVerticalGroup(
@@ -161,7 +172,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tranSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tranDeSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 375, Short.MAX_VALUE)
                 .addComponent(toWorkspaceBtn)
                 .addContainerGap())
             .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,14 +181,14 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(repoPathTf)
                     .addGap(11, 11, 11)
                     .addComponent(workspacePathTf)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(toRepoBtn)
                     .addContainerGap()))
         );
 
-        jTabbedPane.addTab("Tran", tranPanel);
+        gitTabbedPane.addTab("Transfer", tranPanel);
 
         setBtnSDB.setText("Set");
 
@@ -226,7 +237,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(setDbPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(setDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 780, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, setDbPanelLayout.createSequentialGroup()
                         .addComponent(statusLabelSDB)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -248,110 +259,194 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(setDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(setBtnSDB)
                     .addComponent(removeBtnSDB))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
 
-        jTabbedPane.addTab("Set DB", setDbPanel);
+        gitTabbedPane.addTab("Set DB", setDbPanel);
+
+        addDbPanel.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setText("Name");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(jLabel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 136;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(nameFieldADB, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 136;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(dbNameFieldADB, gridBagConstraints);
 
         jLabel4.setText("Db Name");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(jLabel4, gridBagConstraints);
 
         jLabel2.setText("Admin Id");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(jLabel2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 136;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(adminIdFieldADB, gridBagConstraints);
 
         jLabel5.setText("Password");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(jLabel5, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 136;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(adminPassFieldADB, gridBagConstraints);
 
         jLabel3.setText("User Id");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(jLabel3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.ipadx = 136;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(userIdFieldADB, gridBagConstraints);
 
         jLabel6.setText("Password");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(jLabel6, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 136;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(userPassFieldADB, gridBagConstraints);
 
         jLabel7.setText("Host");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(jLabel7, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.ipadx = 136;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(hostFieldADB, gridBagConstraints);
 
         jLabel8.setText("Port");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(jLabel8, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 136;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(portFieldADB, gridBagConstraints);
 
         addBtnADB.setText("Add");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(addBtnADB, gridBagConstraints);
 
         testBtnADB.setText("Test");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
+        addDbPanel.add(testBtnADB, gridBagConstraints);
 
-        javax.swing.GroupLayout addDbPanelLayout = new javax.swing.GroupLayout(addDbPanel);
-        addDbPanel.setLayout(addDbPanelLayout);
-        addDbPanelLayout.setHorizontalGroup(
-            addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addDbPanelLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(hostFieldADB, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                    .addComponent(userIdFieldADB))
-                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addDbPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(testBtnADB)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addBtnADB))
-                    .addGroup(addDbPanelLayout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dbNameFieldADB, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(adminPassFieldADB, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(userPassFieldADB, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(portFieldADB))))
-                .addContainerGap())
-            .addGroup(addDbPanelLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(adminIdFieldADB, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                    .addComponent(nameFieldADB))
-                .addGap(306, 306, 306))
-        );
-        addDbPanelLayout.setVerticalGroup(
-            addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addDbPanelLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(nameFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(dbNameFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(adminIdFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(adminPassFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(userIdFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(userPassFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(hostFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(portFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
-                .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addBtnADB)
-                    .addComponent(testBtnADB))
-                .addContainerGap())
-        );
+        gitTabbedPane.addTab("Add DB", addDbPanel);
 
-        jTabbedPane.addTab("Add DB", addDbPanel);
+        gitPanel.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane2.setViewportView(gitFileStagedList);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 200;
+        gridBagConstraints.ipady = 200;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gitPanel.add(jScrollPane2, gridBagConstraints);
+
+        jScrollPane4.setViewportView(gitFileUnstagedList);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 200;
+        gridBagConstraints.ipady = 200;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gitPanel.add(jScrollPane4, gridBagConstraints);
+
+        gitDiffTextPane.setEditable(false);
+        jScrollPane5.setViewportView(gitDiffTextPane);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.ipadx = 500;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gitPanel.add(jScrollPane5, gridBagConstraints);
+
+        gitTabbedPane.addTab("GIT", gitPanel);
 
         fileMenu.setText("File");
 
@@ -392,14 +487,14 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane)
+                .addComponent(gitTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane)
+                .addComponent(gitTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -407,11 +502,11 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void jTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPaneStateChanged
-        if (jTabbedPane.getSelectedIndex() == 1) {
+    private void gitTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_gitTabbedPaneStateChanged
+        if (gitTabbedPane.getSelectedIndex() == 1) {
             SetDBPanelController.getInstance().buildSetDbPanel();
         }
-    }//GEN-LAST:event_jTabbedPaneStateChanged
+    }//GEN-LAST:event_gitTabbedPaneStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MainMenuBar;
@@ -428,6 +523,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItemBtn;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel foldersPanel;
+    private javax.swing.JTextPane gitDiffTextPane;
+    private javax.swing.JList<com.esspi.hcbptool.git.GitFile> gitFileStagedList;
+    private javax.swing.JList<com.esspi.hcbptool.git.GitFile> gitFileUnstagedList;
+    private javax.swing.JPanel gitPanel;
+    private javax.swing.JTabbedPane gitTabbedPane;
     private javax.swing.JTextField hostFieldADB;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -438,9 +538,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JMenuItem lightThemeMenuItem;
     private javax.swing.JTextField nameFieldADB;
     private javax.swing.JTextField portFieldADB;
