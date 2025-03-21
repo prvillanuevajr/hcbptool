@@ -3,3 +3,4 @@ hcbptoolconfig.json
 hcbptoolconfig.yaml
 nb-configuration.xml
 nbactions.xml
+*.log

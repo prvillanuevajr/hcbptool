@@ -57,10 +57,11 @@ public class SetDBPanelController {
             JDialog dialogLoader = new JOptionPane("Applying " + dbConfig.getName(), JOptionPane.INFORMATION_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}).createDialog(MainFrame.getInstance().getSetDbPanel(), "Applying DB Config...");
             dialogLoader.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
             SetDbConfigTask setDbConfigTask = new SetDbConfigTask(dbConfig);
-            new TaskNotifier().setFutures(setDbConfigTask.run()).setDoAfter(() -> {
+            setDbConfigTask.setOnSuccess((x) -> {
                 dialogLoader.dispose();
-                JOptionPane.showMessageDialog(MainFrame.getInstance().getSetDbPanel(), dbConfig.getName() + " DB Applied!");
-            }).listen();
+                JOptionPane.showMessageDialog(MainFrame.getInstance().getSetDbPanel(), x);
+            });
+            setDbConfigTask.run();
             dialogLoader.setVisible(Boolean.TRUE);
         }
     }
