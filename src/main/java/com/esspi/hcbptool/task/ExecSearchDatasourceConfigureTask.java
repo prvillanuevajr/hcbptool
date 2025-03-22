@@ -12,7 +12,7 @@ import com.esspi.hcbptool.constants.SetDbConstants;
  *
  * @author presmelito.villanuev
  */
-public class ExecSearchDatasourceConfigureTask extends Task {
+public class ExecSearchDatasourceConfigureTask extends DataSourceConfigureTask {
 
     private DBConfig dbConfig;
 
