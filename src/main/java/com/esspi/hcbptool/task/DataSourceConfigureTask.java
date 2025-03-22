@@ -6,6 +6,7 @@ package com.esspi.hcbptool.task;
 
 import java.io.IOException;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -14,6 +15,8 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class DataSourceConfigureTask extends Task{
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceConfigureTask.class);
+    
     @Override
     protected void executeCommand(String[] command) {
         ProcessBuilder builder = new ProcessBuilder();
@@ -22,22 +25,21 @@ public abstract class DataSourceConfigureTask extends Task{
         doBeforeRun();
         String message = StringUtils.EMPTY;
         try {
+            LOGGER.info(StringUtils.join(command, StringUtils.SPACE));
             Process process = builder.start();
             try (java.util.Scanner scanner = new java.util.Scanner(process.getInputStream())) {
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
-                    LoggerFactory.getLogger(Task.class).info(line);
+                    LOGGER.info(line);
                     doDuringRun(line);
                     message += line;
                 }
             }
             int result = process.waitFor();
-            if (StringUtils.isNotEmpty(message)) {
-                doOnSuccess(message);
-            }
+            doOnSuccess(message);
         } catch (IOException | InterruptedException ex) {
             doOnError(ex.getMessage());
-            LoggerFactory.getLogger(Task.class).error(ex.getMessage());
+            LOGGER.error(ex.getMessage());
         }
     }
     

@@ -85,7 +85,6 @@ public class SystemTrayController {
     public void removeDBConfigFromSetDBTrayMenu(DBConfig dbconfig) {
         for (int i = 0; i < setDbMenu.getItemCount(); i++) {
             if (setDbMenu.getItem(i).getLabel().equals(dbconfig.getName())) {
-                System.out.println(setDbMenu.getItem(i).getLabel());
                 setDbMenu.remove(setDbMenu.getItem(i));
                 break;
             }
