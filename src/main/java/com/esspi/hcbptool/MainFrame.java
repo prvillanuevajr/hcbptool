@@ -212,12 +212,6 @@ public class MainFrame extends javax.swing.JFrame {
         dbConfigTable.setRowHeight(30);
         dbConfigTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(dbConfigTable);
-        if (dbConfigTable.getColumnModel().getColumnCount() > 0) {
-            dbConfigTable.getColumnModel().getColumn(0).setResizable(false);
-            dbConfigTable.getColumnModel().getColumn(1).setResizable(false);
-            dbConfigTable.getColumnModel().getColumn(2).setResizable(false);
-            dbConfigTable.getColumnModel().getColumn(3).setResizable(false);
-        }
 
         javax.swing.GroupLayout setDbPanelLayout = new javax.swing.GroupLayout(setDbPanel);
         setDbPanel.setLayout(setDbPanelLayout);
