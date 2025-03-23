@@ -4,14 +4,11 @@
  */
 package com.esspi.hcbptool.config;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.text.MessageFormat;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import oracle.jdbc.driver.OracleDriver;
 
 /**
  *
@@ -20,36 +17,24 @@ import oracle.jdbc.driver.OracleDriver;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DBConfig {
 
     private String name;
     private String dbName;
+    @JsonAlias("dbaUser")
     private String adminId;
+    @JsonAlias("dbaPassword")
     private String adminPassword;
+    @JsonAlias("dbUser")
     private String userId;
+    @JsonAlias("dbPassword")
     private String userPassword;
+    @JsonAlias("dbPort")
     private String port;
+    @JsonAlias("dbHost")
     private String host;
-
-    public String validate() {
-        String url = MessageFormat.format("jdbc:oracle:thin:@//{0}:{1}/{2}", host, port, dbName);
-        DriverManager.setLoginTimeout(2);
-        try {
-            Class.forName(OracleDriver.class.getName());
-            Connection conn = DriverManager.getConnection(url, userId, userPassword);
-            String result;
-            if (conn.isValid(2)) {
-                result = "Success!";
-            } else {
-                result = "Invalid!";
-            }
-            conn.close();
-            return result;
-        } catch (ClassNotFoundException | SQLException ex) {
-            return ex.getMessage();
-        }
-    }
-
+    
     @Override
     public String toString() {
         return String.format("%-15s = %s:%s %s", name, host, port, dbName);

@@ -5,12 +5,16 @@
 package com.esspi.hcbptool.ui;
 
 import com.esspi.hcbptool.MainFrame;
+import com.esspi.hcbptool.concurrency.TheExecutor;
 import com.esspi.hcbptool.config.DBConfig;
 import com.esspi.hcbptool.config.ToolConfig;
+import com.esspi.hcbptool.task.Task;
+import com.esspi.hcbptool.task.ValidateDBConfigTask;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import java.util.Objects;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -36,29 +40,50 @@ public class AddDBPaneController {
                 MainFrame.getInstance().getAdminIdFieldADB().getText(), MainFrame.getInstance().getAdminPassFieldADB().getText(),
                 MainFrame.getInstance().getUserIdFieldADB().getText(), MainFrame.getInstance().getUserPassFieldADB().getText(),
                 MainFrame.getInstance().getPortFieldADB().getText(), MainFrame.getInstance().getHostFieldADB().getText());
-        String message = dBConfig.validate();
-        JOptionPane.showMessageDialog(MainFrame.getInstance(), message);
+        JDialog dialogLoader = new JOptionPane("Validating...",JOptionPane.INFORMATION_MESSAGE,0, null, new Object[]{}).createDialog("Validating Database...");
+        dialogLoader.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        JOptionPane jop = (JOptionPane) dialogLoader.getContentPane().getComponent(0);
+        Task validateDBConfigTask = new ValidateDBConfigTask(dBConfig);
+        validateDBConfigTask.setOnError(message -> {
+            jop.setMessage(message);
+            jop.setOptions(new Object[]{"OK"});
+            dialogLoader.pack();
+            dialogLoader.setLocationRelativeTo(MainFrame.getInstance());
+        });
+        validateDBConfigTask.setOnSuccess(message -> {
+            jop.setMessage(message);
+            jop.setOptions(new Object[]{"OK"});
+            dialogLoader.pack();
+            dialogLoader.setLocationRelativeTo(MainFrame.getInstance());
+        });
+        TheExecutor.getInstance().getExecutorService().submit(validateDBConfigTask);
+        dialogLoader.setVisible(true);
     }
 
     private void addBtnADBActionPerformed(java.awt.event.ActionEvent evt) {
-        if (SetDBPanelController.getInstance().addDbHasMissingField()) {
+        if (SetDBPanelController.getInstance().addDbHasMissingField() || addDbNameIsInValid(evt)) {
             return;
         }
-        if (addDbNameIsInValid(evt)) {
-            return;
-        }
+       
         DBConfig dBConfig = new DBConfig(MainFrame.getInstance().getNameFieldADB().getText(), MainFrame.getInstance().getDbNameFieldADB().getText(),
                 MainFrame.getInstance().getAdminIdFieldADB().getText(), MainFrame.getInstance().getAdminPassFieldADB().getText(),
                 MainFrame.getInstance().getUserIdFieldADB().getText(), MainFrame.getInstance().getUserPassFieldADB().getText(),
                 MainFrame.getInstance().getPortFieldADB().getText(), MainFrame.getInstance().getHostFieldADB().getText());
-        ToolConfig.getInstance().getDbConfigs().add(dBConfig);
-        Arrays.stream(MainFrame.getInstance().getAddDbPanel().getComponents()).forEach(component -> {
-            if (component instanceof JTextField) {
-                ((JTextField) component).setText("");
-            }
+        Task validateTask = new ValidateDBConfigTask(dBConfig);
+        JDialog dialogLoader = new JOptionPane("Validating...",JOptionPane.INFORMATION_MESSAGE,0, null, new Object[]{}).createDialog("Validating Database...");
+        dialogLoader.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        validateTask.setOnSuccess(message -> {
+            ToolConfig.getInstance().getDbConfigs().add(dBConfig);
+            Arrays.stream(MainFrame.getInstance().getAddDbPanel().getComponents()).forEach(component -> {
+                if (component instanceof JTextField) {
+                    ((JTextField) component).setText("");
+                }
+            });
+            SystemTrayController.getInstance().addSetDbConfigToTrayMenu(dBConfig);
+            JOptionPane.showMessageDialog(MainFrame.getInstance().getRootPane(), "Config Added!");
         });
-        SystemTrayController.getInstance().addSetDbConfigToTrayMenu(dBConfig);
-        JOptionPane.showMessageDialog(MainFrame.getInstance().getRootPane(), "Config Added!");
+        TheExecutor.getInstance().getExecutorService().submit(validateTask);
+        dialogLoader.setVisible(true);
     }
 
     private boolean addDbNameIsInValid(ActionEvent evt) throws HeadlessException {
