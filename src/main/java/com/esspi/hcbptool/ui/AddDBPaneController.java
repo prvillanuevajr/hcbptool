@@ -73,6 +73,7 @@ public class AddDBPaneController {
                 MainFrame.getInstance().getPortFieldADB().getText(), MainFrame.getInstance().getHostFieldADB().getText());
         Task validateTask = new ValidateDBConfigTask(dBConfig);
         JDialog dialogLoader = new JOptionPane("Validating...",JOptionPane.INFORMATION_MESSAGE,0, new ImageIcon(Hcbptool.class.getClassLoader().getResource("running.gif")), new Object[]{}).createDialog("Validating Database...");
+        JOptionPane jOptionPane = (JOptionPane) dialogLoader.getContentPane().getComponent(0);
         dialogLoader.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         validateTask.setOnSuccess(message -> {
             ToolConfig.getInstance().getDbConfigs().add(dBConfig);
@@ -83,6 +84,13 @@ public class AddDBPaneController {
             });
             SystemTrayController.getInstance().addSetDbConfigToTrayMenu(dBConfig);
             JOptionPane.showMessageDialog(MainFrame.getInstance().getRootPane(), "Config Added!");
+        });
+        validateTask.setOnError(message -> {
+            jOptionPane.setMessage(message);
+            jOptionPane.setOptions(new Object[]{"OK"});
+            jOptionPane.setIcon(null);
+            dialogLoader.pack();
+            dialogLoader.setLocationRelativeTo(MainFrame.getInstance());
         });
         TheExecutor.getInstance().getExecutorService().submit(validateTask);
         dialogLoader.setVisible(true);
