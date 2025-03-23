@@ -4,6 +4,7 @@
  */
 package com.esspi.hcbptool.ui;
 
+import com.esspi.hcbptool.Hcbptool;
 import com.esspi.hcbptool.MainFrame;
 import com.esspi.hcbptool.config.ToolConfig;
 import com.esspi.hcbptool.constants.Constants;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -78,7 +80,7 @@ public class TransferPanelController {
         }
         if (JOptionPane.showConfirmDialog(MainFrame.getInstance().getTranPanel(), "Are you sure?", "To Repository", JOptionPane.YES_NO_OPTION, 1) == JOptionPane.YES_OPTION) {
             resetFoldersCheckBoxes();
-            JDialog dialog = new JOptionPane("Transferring...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.NO_OPTION, null, new Object[]{}).createDialog("To Repository...");
+            JDialog dialog = new JOptionPane("Transferring...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.NO_OPTION, new ImageIcon(Hcbptool.class.getClassLoader().getResource("running.gif")), new Object[]{}).createDialog("To Repository...");
             dialog.setLocationRelativeTo(MainFrame.getInstance());
             Transfer repoTransfer = new ToRepositoryTransfer();
             repoTransfer.setBeforeRun((folder) -> () -> foldersCBMap.get(folder).setForeground(Color.LIGHT_GRAY));
@@ -101,7 +103,7 @@ public class TransferPanelController {
         }
         if (JOptionPane.showConfirmDialog(MainFrame.getInstance().getTranPanel(), "Are you sure?", "To Workspace", JOptionPane.YES_NO_OPTION, 1) == JOptionPane.YES_OPTION) {
             resetFoldersCheckBoxes();
-            JDialog dialog = new JOptionPane("Transferring...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.NO_OPTION, null, new Object[]{}).createDialog("Transferring...");
+            JDialog dialog = new JOptionPane("Transferring...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.NO_OPTION, new ImageIcon(Hcbptool.class.getClassLoader().getResource("running.gif")), new Object[]{}).createDialog("Transferring...");
             dialog.setLocationRelativeTo(MainFrame.getInstance());
             Transfer toWorkspace = new ToWorkspaceTransfer();
             toWorkspace.setBeforeRun((folder) -> () -> foldersCBMap.get(folder).setForeground(Color.LIGHT_GRAY));
