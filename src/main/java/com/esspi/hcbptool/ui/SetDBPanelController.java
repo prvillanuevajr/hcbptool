@@ -10,6 +10,7 @@ import com.esspi.hcbptool.config.ToolConfig;
 import com.esspi.hcbptool.task.SetDbConfigTask;
 import com.esspi.hcbptool.task.TaskNotifier;
 import java.util.Objects;
+import java.util.function.Consumer;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -58,14 +59,16 @@ public class SetDBPanelController {
             dialogLoader.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
             JOptionPane jOptionPane = (JOptionPane) dialogLoader.getContentPane().getComponent(0);
             SetDbConfigTask setDbConfigTask = new SetDbConfigTask(dbConfig);
-            setDbConfigTask.setOnSuccess((message) -> {
+            Consumer<String> doAfter = (message) -> {
                 if (StringUtils.isNotEmpty(message)) {
                     jOptionPane.setMessage(jOptionPane.getMessage() + "\n" + message);
                     dialogLoader.repaint();
                     dialogLoader.pack();
                     dialogLoader.setLocationRelativeTo(MainFrame.getInstance());
                 }
-            });
+            };
+            setDbConfigTask.setOnSuccess(doAfter);
+            setDbConfigTask.setOnError(doAfter);
             new TaskNotifier().setDoAfter(() -> {
                 jOptionPane.setOptions(new Object[]{"OK"});
                 dialogLoader.pack();
