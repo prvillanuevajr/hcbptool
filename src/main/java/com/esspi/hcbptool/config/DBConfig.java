@@ -4,6 +4,8 @@
  */
 package com.esspi.hcbptool.config;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,15 +17,22 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DBConfig {
 
     private String name;
     private String dbName;
+    @JsonAlias("dbaUser")
     private String adminId;
+    @JsonAlias("dbaPassword")
     private String adminPassword;
+    @JsonAlias("dbUser")
     private String userId;
+    @JsonAlias("dbPassword")
     private String userPassword;
+    @JsonAlias("dbPort")
     private String port;
+    @JsonAlias("dbHost")
     private String host;
     
     @Override
