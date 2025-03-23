@@ -19,6 +19,7 @@ public abstract class DataSourceConfigureTask extends Task{
     
     @Override
     protected void executeCommand(String[] command) {
+        LOGGER.info("START {}" , this.getClass().getName());
         ProcessBuilder builder = new ProcessBuilder();
         builder.command(command);
         builder.redirectErrorStream(true);
@@ -37,6 +38,7 @@ public abstract class DataSourceConfigureTask extends Task{
             }
             int result = process.waitFor();
             doOnSuccess(message);
+            LOGGER.info("END {}" , this.getClass().getName());
         } catch (IOException | InterruptedException ex) {
             doOnError(ex.getMessage());
             LOGGER.error(ex.getMessage());

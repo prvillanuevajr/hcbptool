@@ -56,14 +56,20 @@ public class SetDBPanelController {
         if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(MainFrame.getInstance().getSetDbPanel(), "Apply " + dbConfig.getName(), "Set DB Config", JOptionPane.YES_NO_OPTION)) {
             JDialog dialogLoader = new JOptionPane("Applying " + dbConfig.getName(), JOptionPane.INFORMATION_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}).createDialog(MainFrame.getInstance().getSetDbPanel(), "Applying DB Config...");
             dialogLoader.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+            JOptionPane jOptionPane = (JOptionPane) dialogLoader.getContentPane().getComponent(0);
             SetDbConfigTask setDbConfigTask = new SetDbConfigTask(dbConfig);
             setDbConfigTask.setOnSuccess((message) -> {
-                dialogLoader.dispose();
                 if (StringUtils.isNotEmpty(message)) {
-                    JOptionPane.showMessageDialog(MainFrame.getInstance().getSetDbPanel(), message,dbConfig.getName(),JOptionPane.INFORMATION_MESSAGE,null);
+                    jOptionPane.setMessage(jOptionPane.getMessage() + "\n" + message);
+                    dialogLoader.repaint();
+                    dialogLoader.pack();
+                    dialogLoader.setLocationRelativeTo(MainFrame.getInstance());
                 }
             });
-            setDbConfigTask.run();
+            new TaskNotifier().setDoAfter(() -> {
+                jOptionPane.setOptions(new Object[]{"OK"});
+                dialogLoader.pack();
+            }).setFutures(setDbConfigTask.run()).listen();
             dialogLoader.setVisible(Boolean.TRUE);
         }
     }
