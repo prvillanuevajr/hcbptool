@@ -46,7 +46,9 @@ public class ValidateDBConfigTask extends Task {
         String url = MessageFormat.format("jdbc:oracle:thin:@//{0}:{1}/{2}", dbConfig.getHost(), dbConfig.getPort(), dbConfig.getDbName());
         DriverManager.setLoginTimeout(2);
         testConnection(url, dbConfig.getUserId(), dbConfig.getUserPassword());
-        testConnection(url, dbConfig.getAdminId(), dbConfig.getAdminPassword());
+        if (isValid) {
+            testConnection(url, dbConfig.getAdminId(), dbConfig.getAdminPassword());
+        }
     }
 
     private void testConnection(String url, String userName, String password) {
