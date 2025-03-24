@@ -8,9 +8,8 @@ This tool aims to help N1 hc bp developers in managing files between repository 
 - Faster Set DB
 - Manage Database Configurations
 
-## Download
-Go to the latest tag and download the executable file.
-
 ## Demo, Screenshots
-https://github.com/prvillanuevajr/hcbptool/assets/37686155/7366381d-271c-4160-8bf5-08971ddd0943
+https://github.com/user-attachments/assets/1e4dc169-9067-4da2-8da4-7300a4d2f66c
+
+
 
