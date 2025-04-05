@@ -5,8 +5,11 @@
 package com.esspi.hcbptool.ui;
 
 import com.esspi.hcbptool.MainFrame;
+import com.esspi.hcbptool.Utils;
 import com.esspi.hcbptool.config.EncryptionKey;
 import com.esspi.hcbptool.config.ToolConfig;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +26,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
 import org.w3c.dom.Document;
@@ -44,16 +48,24 @@ public class EncryptionPanelController {
 
     public void init() {
         addComponentListeners();
+        addButtonIcons();
         refreshTable();
     }
 
     public void addEncryption() {
-        String name = JOptionPane.showInputDialog("Please input config name");
-        String merchantKey = JOptionPane.showInputDialog("Please input merchant key");
-        String sessionKey = JOptionPane.showInputDialog("Please input session key");
+        String name = MainFrame.getInstance().getEncryptiontabNameField().getText().trim();
+        String merchantKey = MainFrame.getInstance().getEncryptiontabMerchantKeyField().getText().trim();
+        String sessionKey = MainFrame.getInstance().getEncryptiontabSessionkeyField().getText().trim();
+        if (StringUtils.isAnyEmpty(name,merchantKey,sessionKey)) {
+            JOptionPane.showMessageDialog(MainFrame.getInstance(), "All fields are required!");
+            return;
+        }
         EncryptionKey key = new EncryptionKey(name, merchantKey, sessionKey);
         ToolConfig.getInstance().getEncriptionKeys().add(key);
         ToolConfig.getInstance().saveConfig();
+        MainFrame.getInstance().getEncryptiontabNameField().setText(StringUtils.EMPTY);
+        MainFrame.getInstance().getEncryptiontabMerchantKeyField().setText(StringUtils.EMPTY);
+        MainFrame.getInstance().getEncryptiontabSessionkeyField().setText(StringUtils.EMPTY);
         refreshTable();
     }
 
@@ -61,6 +73,8 @@ public class EncryptionPanelController {
         MainFrame.getInstance().getEpcAddButton().addActionListener(e -> addEncryption());
         MainFrame.getInstance().getEpcRemoveButton().addActionListener(e -> removeEncryption());
         MainFrame.getInstance().getEpcSetButton().addActionListener(e -> setEncryption());
+        MainFrame.getInstance().getEpcViewMerchantKeyButton().addActionListener(e -> Utils.openFile(ToolConfig.getInstance().getWorkspacePath().resolve("WC/xml/config/merchantKey.xml").toFile()));
+        MainFrame.getInstance().getEpcViewWCServerFileButton().addActionListener(e -> Utils.openFile(ToolConfig.getInstance().getWorkspacePath().resolve("WC/xml/config/wc-server.xml").toFile()));
     }
 
     private void refreshTable() {
@@ -96,8 +110,9 @@ public class EncryptionPanelController {
         Path wcServerXML = Paths.get(ToolConfig.getInstance().getWorkspacePath().toString(), "/WC/xml/config/wc-server.xml");
 
         if (merchantKeyXML.toFile().exists() && wcServerXML.toFile().exists()) {
-            updateXMLValue(merchantKeyXML.toFile(), "keys/key", "value", key.getMerchantKey());
             updateXMLValue(wcServerXML.toFile(), "config/InstanceProperties/Instance", "SessionKey", key.getSessionKey());
+            updateXMLValue(merchantKeyXML.toFile(), "keys/key", "value", key.getMerchantKey());
+            JOptionPane.showMessageDialog(MainFrame.getInstance().getSetDbPanel(), "Keys Updated!");
         } else {
             JOptionPane.showMessageDialog(MainFrame.getInstance(), "Config XML files not found!");
         }
@@ -123,5 +138,15 @@ public class EncryptionPanelController {
         } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException ex) {
             Logger.getLogger(EncryptionPanelController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void addButtonIcons() {
+        MainFrame.getInstance().getEpcViewMerchantKeyButton().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/file-code.svg"));
+        MainFrame.getInstance().getEpcViewWCServerFileButton().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/file-code.svg"));
+        MainFrame.getInstance().getEpcRemoveButton().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/trash-can.svg"));
+        MainFrame.getInstance().getEpcAddButton().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/plus.svg"));
+        MainFrame.getInstance().getEpcSetButton().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/user-secret.svg"));
+        MainFrame.getInstance().getEpcSetButton().setIcon(new FlatSVGIcon("com/esspi/hcbptool/svgs/user-secret.svg"));
+        MainFrame.getInstance().getJTabbedPane().setIconAt(3,new FlatSVGIcon("com/esspi/hcbptool/svgs/user-secret.svg"));
     }
 }
