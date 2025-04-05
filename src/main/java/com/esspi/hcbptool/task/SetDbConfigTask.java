@@ -33,10 +33,20 @@ public class SetDbConfigTask extends Task {
     public List<Future> run() {
         ExecutorService service = TheExecutor.getInstance().getExecutorService();
         List<Future> futures = new ArrayList<>();
-        futures.add(service.submit(new ExecDataSourceConfigureTask(this.dbConfig)));
-        futures.add(service.submit(new ExecSearchDatasourceConfigureTask(this.dbConfig)));
-        futures.add(service.submit(new ExecJvmOptionsConfigure()));
-        TheExecutor.getInstance().getExecutorService().shutdown();
+        Task validateDBConfigTask = new ValidateDBConfigTask(dbConfig);
+        validateDBConfigTask.setOnError(this::doOnError);
+        validateDBConfigTask.setOnSuccess(message -> {
+            doOnSuccess(message);
+            Task setDataSourceTask = new ExecDataSourceConfigureTask(this.dbConfig);
+            setDataSourceTask.setOnSuccess(this::doOnSuccess);
+            Task setSearchDataSourceTask = new ExecSearchDatasourceConfigureTask(this.dbConfig);
+            setSearchDataSourceTask.setOnSuccess(this::doOnSuccess);
+            futures.add(service.submit(setDataSourceTask));
+            futures.add(service.submit(setSearchDataSourceTask));
+            futures.add(service.submit(new ExecJvmOptionsConfigure()));
+            TheExecutor.getInstance().getExecutorService().shutdown();
+        });
+        futures.add(service.submit(validateDBConfigTask));
         return futures;
     }
 

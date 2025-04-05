@@ -167,7 +167,7 @@
                           <Component id="tranSelectAllBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tranDeSelectAllBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="265" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="264" max="-2" attributes="0"/>
                       <Component id="toWorkspaceBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>

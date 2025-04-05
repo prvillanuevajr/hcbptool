@@ -4,12 +4,16 @@
  */
 package com.esspi.hcbptool.ui;
 
+import com.esspi.hcbptool.Hcbptool;
 import com.esspi.hcbptool.MainFrame;
 import com.esspi.hcbptool.config.DBConfig;
 import com.esspi.hcbptool.config.ToolConfig;
 import com.esspi.hcbptool.task.SetDbConfigTask;
 import com.esspi.hcbptool.task.TaskNotifier;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.util.Objects;
+import java.util.function.Consumer;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -54,13 +58,25 @@ public class SetDBPanelController {
 
     public void setDb(DBConfig dbConfig) {
         if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(MainFrame.getInstance().getSetDbPanel(), "Apply " + dbConfig.getName(), "Set DB Config", JOptionPane.YES_NO_OPTION)) {
-            JDialog dialogLoader = new JOptionPane("Applying " + dbConfig.getName(), JOptionPane.INFORMATION_MESSAGE, JOptionPane.PLAIN_MESSAGE, null, new Object[]{}).createDialog(MainFrame.getInstance().getSetDbPanel(), "Applying DB Config...");
+            JDialog dialogLoader = new JOptionPane("Applying " + dbConfig.getName(), JOptionPane.INFORMATION_MESSAGE, JOptionPane.PLAIN_MESSAGE, new ImageIcon(Hcbptool.class.getClassLoader().getResource("running.gif")), new Object[]{}).createDialog(MainFrame.getInstance().getSetDbPanel(), "Applying DB Config...");
             dialogLoader.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+            JOptionPane jOptionPane = (JOptionPane) dialogLoader.getContentPane().getComponent(0);
             SetDbConfigTask setDbConfigTask = new SetDbConfigTask(dbConfig);
-            new TaskNotifier().setFutures(setDbConfigTask.run()).setDoAfter(() -> {
-                dialogLoader.dispose();
-                JOptionPane.showMessageDialog(MainFrame.getInstance().getSetDbPanel(), dbConfig.getName() + " DB Applied!");
-            }).listen();
+            Consumer<String> doAfter = (message) -> {
+                if (StringUtils.isNotEmpty(message)) {
+                    jOptionPane.setMessage(jOptionPane.getMessage() + "\n" + message);
+                    dialogLoader.repaint();
+                    dialogLoader.pack();
+                    dialogLoader.setLocationRelativeTo(MainFrame.getInstance());
+                }
+            };
+            setDbConfigTask.setOnSuccess(doAfter);
+            setDbConfigTask.setOnError(doAfter);
+            new TaskNotifier().setDoAfter(() -> {
+                jOptionPane.setOptions(new Object[]{"OK"});
+                jOptionPane.setIcon(null);
+                dialogLoader.pack();
+            }).setFutures(setDbConfigTask.run()).listen();
             dialogLoader.setVisible(Boolean.TRUE);
         }
     }

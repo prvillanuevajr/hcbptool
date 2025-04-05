@@ -54,7 +54,11 @@ public class SystemTrayController {
 
             exitTrayMenu.addActionListener(e -> System.exit(0));
 
-            showTrayMenu.addActionListener(e -> MainFrame.getInstance().setVisible(Boolean.TRUE));
+            showTrayMenu.addActionListener(e -> {
+                MainFrame.getInstance().pack();
+                MainFrame.getInstance().setLocationRelativeTo(null);
+                MainFrame.getInstance().setVisible(Boolean.TRUE);
+            });
 
             MenuItem menuItemTemp;
             for (DBConfig dbConfig : ToolConfig.getInstance().getDbConfigs()) {
@@ -85,7 +89,6 @@ public class SystemTrayController {
     public void removeDBConfigFromSetDBTrayMenu(DBConfig dbconfig) {
         for (int i = 0; i < setDbMenu.getItemCount(); i++) {
             if (setDbMenu.getItem(i).getLabel().equals(dbconfig.getName())) {
-                System.out.println(setDbMenu.getItem(i).getLabel());
                 setDbMenu.remove(setDbMenu.getItem(i));
                 break;
             }
