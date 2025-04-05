@@ -5,6 +5,7 @@
 package com.esspi.hcbptool;
 
 import com.esspi.hcbptool.ui.AddDBPaneController;
+import com.esspi.hcbptool.ui.EncryptionPanelController;
 import com.esspi.hcbptool.ui.MainMenuBarController;
 import com.esspi.hcbptool.ui.SetDBPanelController;
 import com.esspi.hcbptool.ui.SystemTrayController;
@@ -37,6 +38,7 @@ public class MainFrame extends javax.swing.JFrame {
         TransferPanelController.getInstance().initTransferPanel();
         SystemTrayController.getInstance().initSystemTray();
         AddDBPaneController.getInstance().init();
+        EncryptionPanelController.getInstance().init();
     }
 
     /**
@@ -83,6 +85,12 @@ public class MainFrame extends javax.swing.JFrame {
         portFieldADB = new javax.swing.JTextField();
         addBtnADB = new javax.swing.JButton();
         testBtnADB = new javax.swing.JButton();
+        encryptionPanel = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        epcTable = new javax.swing.JTable();
+        epcAddButton = new javax.swing.JButton();
+        epcSetButton = new javax.swing.JButton();
+        epcRemoveButton = new javax.swing.JButton();
         MainMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         changeMenu = new javax.swing.JMenu();
@@ -161,7 +169,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tranSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tranDeSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 265, Short.MAX_VALUE)
                 .addComponent(toWorkspaceBtn)
                 .addContainerGap())
             .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,7 +178,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(repoPathTf)
                     .addGap(11, 11, 11)
                     .addComponent(workspacePathTf)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(toRepoBtn)
@@ -210,14 +218,9 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         dbConfigTable.setRowHeight(30);
+        dbConfigTable.setShowHorizontalLines(true);
         dbConfigTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(dbConfigTable);
-        if (dbConfigTable.getColumnModel().getColumnCount() > 0) {
-            dbConfigTable.getColumnModel().getColumn(0).setResizable(false);
-            dbConfigTable.getColumnModel().getColumn(1).setResizable(false);
-            dbConfigTable.getColumnModel().getColumn(2).setResizable(false);
-            dbConfigTable.getColumnModel().getColumn(3).setResizable(false);
-        }
 
         javax.swing.GroupLayout setDbPanelLayout = new javax.swing.GroupLayout(setDbPanel);
         setDbPanel.setLayout(setDbPanelLayout);
@@ -344,7 +347,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(hostFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
                     .addComponent(portFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
                 .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addBtnADB)
                     .addComponent(testBtnADB))
@@ -352,6 +355,77 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         jTabbedPane.addTab("Add DB", addDbPanel);
+
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(150, 150));
+
+        epcTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Name", "Merchant Key", "Session Key"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        epcTable.setShowHorizontalLines(true);
+        jScrollPane4.setViewportView(epcTable);
+        if (epcTable.getColumnModel().getColumnCount() > 0) {
+            epcTable.getColumnModel().getColumn(0).setResizable(false);
+            epcTable.getColumnModel().getColumn(1).setResizable(false);
+            epcTable.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        epcAddButton.setText("ADD");
+
+        epcSetButton.setText("SET");
+
+        epcRemoveButton.setText("REMOVE");
+
+        javax.swing.GroupLayout encryptionPanelLayout = new javax.swing.GroupLayout(encryptionPanel);
+        encryptionPanel.setLayout(encryptionPanelLayout);
+        encryptionPanelLayout.setHorizontalGroup(
+            encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(encryptionPanelLayout.createSequentialGroup()
+                .addContainerGap(338, Short.MAX_VALUE)
+                .addComponent(epcAddButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(epcRemoveButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(epcSetButton)
+                .addContainerGap())
+            .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(encryptionPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        encryptionPanelLayout.setVerticalGroup(
+            encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(encryptionPanelLayout.createSequentialGroup()
+                .addContainerGap(289, Short.MAX_VALUE)
+                .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(epcSetButton)
+                    .addComponent(epcRemoveButton)
+                    .addComponent(epcAddButton))
+                .addGap(70, 70, 70))
+            .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(encryptionPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(116, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane.addTab("Encryption", encryptionPanel);
 
         fileMenu.setText("File");
 
@@ -425,6 +499,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem darkThemeMenuItem;
     private javax.swing.JTable dbConfigTable;
     private javax.swing.JTextField dbNameFieldADB;
+    private javax.swing.JPanel encryptionPanel;
+    private javax.swing.JButton epcAddButton;
+    private javax.swing.JButton epcRemoveButton;
+    private javax.swing.JButton epcSetButton;
+    private javax.swing.JTable epcTable;
     private javax.swing.JMenuItem exitMenuItemBtn;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel foldersPanel;
@@ -439,6 +518,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JMenuItem lightThemeMenuItem;

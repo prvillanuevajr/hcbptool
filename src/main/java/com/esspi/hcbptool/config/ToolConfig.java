@@ -38,6 +38,7 @@ public class ToolConfig {
     private List<String> folders = new ArrayList<>();
     private List<String> selectedFolders = new ArrayList<>();
     private List<DBConfig> dbConfigs = new ArrayList<>();
+    private List<EncryptionKey> encriptionKeys = new ArrayList<>();
     
     public static ToolConfig getInstance() {
         if (Objects.isNull(instance)) {
