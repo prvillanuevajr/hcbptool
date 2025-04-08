@@ -10,7 +10,6 @@ import com.esspi.hcbptool.config.DBConfig;
 import com.esspi.hcbptool.config.ToolConfig;
 import com.esspi.hcbptool.task.SetDbConfigTask;
 import com.esspi.hcbptool.task.TaskNotifier;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.util.Objects;
 import java.util.function.Consumer;
 import javax.swing.ImageIcon;

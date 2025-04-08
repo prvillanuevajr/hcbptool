@@ -5,6 +5,7 @@
 package com.esspi.hcbptool;
 
 import com.esspi.hcbptool.ui.AddDBPaneController;
+import com.esspi.hcbptool.ui.EncryptionPanelController;
 import com.esspi.hcbptool.ui.MainMenuBarController;
 import com.esspi.hcbptool.ui.SetDBPanelController;
 import com.esspi.hcbptool.ui.SystemTrayController;
@@ -37,6 +38,7 @@ public class MainFrame extends javax.swing.JFrame {
         TransferPanelController.getInstance().initTransferPanel();
         SystemTrayController.getInstance().initSystemTray();
         AddDBPaneController.getInstance().init();
+        EncryptionPanelController.getInstance().init();
     }
 
     /**
@@ -83,6 +85,20 @@ public class MainFrame extends javax.swing.JFrame {
         portFieldADB = new javax.swing.JTextField();
         addBtnADB = new javax.swing.JButton();
         testBtnADB = new javax.swing.JButton();
+        encryptionPanel = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        epcTable = new javax.swing.JTable();
+        epcAddButton = new javax.swing.JButton();
+        epcSetButton = new javax.swing.JButton();
+        epcRemoveButton = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        encryptiontabNameField = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        encryptiontabMerchantKeyField = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        encryptiontabSessionkeyField = new javax.swing.JTextField();
+        epcViewWCServerFileButton = new javax.swing.JButton();
+        epcViewMerchantKeyButton = new javax.swing.JButton();
         MainMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         changeMenu = new javax.swing.JMenu();
@@ -170,14 +186,14 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(repoPathTf)
                     .addGap(11, 11, 11)
                     .addComponent(workspacePathTf)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(toRepoBtn)
                     .addContainerGap()))
         );
 
-        jTabbedPane.addTab("Tran", tranPanel);
+        jTabbedPane.addTab("Transfer", tranPanel);
 
         setBtnSDB.setText("Set");
 
@@ -210,6 +226,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         dbConfigTable.setRowHeight(30);
+        dbConfigTable.setShowHorizontalLines(true);
         dbConfigTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(dbConfigTable);
 
@@ -242,7 +259,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(setDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(setBtnSDB)
                     .addComponent(removeBtnSDB))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jTabbedPane.addTab("Set DB", setDbPanel);
@@ -338,7 +355,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(hostFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
                     .addComponent(portFieldADB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
                 .addGroup(addDbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addBtnADB)
                     .addComponent(testBtnADB))
@@ -346,6 +363,120 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         jTabbedPane.addTab("Add DB", addDbPanel);
+
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(150, 150));
+
+        epcTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Name", "Merchant Key", "Session Key"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        epcTable.setRowHeight(30);
+        epcTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        epcTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        epcTable.setShowHorizontalLines(true);
+        jScrollPane4.setViewportView(epcTable);
+
+        epcAddButton.setText("ADD");
+        epcAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                epcAddButtonActionPerformed(evt);
+            }
+        });
+
+        epcSetButton.setText("SET");
+
+        epcRemoveButton.setText("REMOVE");
+
+        jLabel9.setText("Name");
+
+        jLabel10.setText("Merchant Key");
+
+        jLabel11.setText("Session Key");
+
+        epcViewWCServerFileButton.setText("WC-SERVER");
+
+        epcViewMerchantKeyButton.setText("MERCHANTKEY");
+
+        javax.swing.GroupLayout encryptionPanelLayout = new javax.swing.GroupLayout(encryptionPanel);
+        encryptionPanel.setLayout(encryptionPanelLayout);
+        encryptionPanelLayout.setHorizontalGroup(
+            encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, encryptionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(encryptionPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(epcAddButton))
+                    .addGroup(encryptionPanelLayout.createSequentialGroup()
+                        .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel11))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(encryptiontabSessionkeyField, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                            .addComponent(encryptiontabNameField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(encryptiontabMerchantKeyField, javax.swing.GroupLayout.Alignment.LEADING))))
+                .addGap(90, 90, 90)
+                .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(encryptionPanelLayout.createSequentialGroup()
+                        .addComponent(epcRemoveButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(epcSetButton))
+                    .addComponent(epcViewWCServerFileButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(epcViewMerchantKeyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(encryptionPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        encryptionPanelLayout.setVerticalGroup(
+            encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(encryptionPanelLayout.createSequentialGroup()
+                .addGap(273, 273, 273)
+                .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(epcSetButton)
+                    .addComponent(epcRemoveButton)
+                    .addComponent(jLabel9)
+                    .addComponent(encryptiontabNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(encryptiontabMerchantKeyField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(epcViewWCServerFileButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(encryptiontabSessionkeyField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(epcViewMerchantKeyButton))
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(epcAddButton))
+            .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(encryptionPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(117, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane.addTab("Encryption", encryptionPanel);
 
         fileMenu.setText("File");
 
@@ -407,6 +538,10 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTabbedPaneStateChanged
 
+    private void epcAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_epcAddButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_epcAddButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar MainMenuBar;
     private javax.swing.JButton addBtnADB;
@@ -419,11 +554,23 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem darkThemeMenuItem;
     private javax.swing.JTable dbConfigTable;
     private javax.swing.JTextField dbNameFieldADB;
+    private javax.swing.JPanel encryptionPanel;
+    private javax.swing.JTextField encryptiontabMerchantKeyField;
+    private javax.swing.JTextField encryptiontabNameField;
+    private javax.swing.JTextField encryptiontabSessionkeyField;
+    private javax.swing.JButton epcAddButton;
+    private javax.swing.JButton epcRemoveButton;
+    private javax.swing.JButton epcSetButton;
+    private javax.swing.JTable epcTable;
+    private javax.swing.JButton epcViewMerchantKeyButton;
+    private javax.swing.JButton epcViewWCServerFileButton;
     private javax.swing.JMenuItem exitMenuItemBtn;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel foldersPanel;
     private javax.swing.JTextField hostFieldADB;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -431,8 +578,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JMenuItem lightThemeMenuItem;
