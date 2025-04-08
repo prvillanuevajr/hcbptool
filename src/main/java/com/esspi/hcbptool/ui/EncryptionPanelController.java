@@ -9,12 +9,10 @@ import com.esspi.hcbptool.Utils;
 import com.esspi.hcbptool.config.EncryptionKey;
 import com.esspi.hcbptool.config.ToolConfig;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,7 +91,7 @@ public class EncryptionPanelController {
             int result = JOptionPane.showConfirmDialog(MainFrame.getInstance().getSetDbPanel(),
                     "Remove this Config?", "Remove Encryption Config", JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
-                EncryptionKey encryptionKey = ToolConfig.getInstance().getEncriptionKeys().remove(MainFrame.getInstance().getEpcTable().getSelectedRow());
+                ToolConfig.getInstance().getEncriptionKeys().remove(MainFrame.getInstance().getEpcTable().getSelectedRow());
                 DefaultTableModel model = (DefaultTableModel) MainFrame.getInstance().getEpcTable().getModel();
                 model.removeRow(MainFrame.getInstance().getEpcTable().getSelectedRow());
             }
@@ -106,8 +104,8 @@ public class EncryptionPanelController {
     private void setEncryption() {
         EncryptionKey key = ToolConfig.getInstance().getEncriptionKeys().get(MainFrame.getInstance().getEpcTable().getSelectedRow());
 
-        Path merchantKeyXML = Paths.get(ToolConfig.getInstance().getWorkspacePath().toString(), "/WC/xml/config/merchantKey.xml");
-        Path wcServerXML = Paths.get(ToolConfig.getInstance().getWorkspacePath().toString(), "/WC/xml/config/wc-server.xml");
+        Path merchantKeyXML = ToolConfig.getInstance().getWorkspacePath().resolve("WC/xml/config/merchantKey.xml");
+        Path wcServerXML = ToolConfig.getInstance().getWorkspacePath().resolve("WC/xml/config/wc-server.xml");
 
         if (merchantKeyXML.toFile().exists() && wcServerXML.toFile().exists()) {
             updateXMLValue(wcServerXML.toFile(), "config/InstanceProperties/Instance", "SessionKey", key.getSessionKey());
