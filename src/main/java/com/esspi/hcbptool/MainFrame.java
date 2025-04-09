@@ -149,7 +149,7 @@ public class MainFrame extends javax.swing.JFrame {
         tranPanelLayout.setHorizontalGroup(
             tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tranPanelLayout.createSequentialGroup()
-                .addContainerGap(382, Short.MAX_VALUE)
+                .addContainerGap(437, Short.MAX_VALUE)
                 .addComponent(toWorkspaceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(tranPanelLayout.createSequentialGroup()
@@ -177,7 +177,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tranSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tranDeSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(264, 264, 264)
+                .addGap(294, 294, 294)
                 .addComponent(toWorkspaceBtn)
                 .addContainerGap())
             .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,8 +186,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(repoPathTf)
                     .addGap(11, 11, 11)
                     .addComponent(workspacePathTf)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(toRepoBtn)
                     .addContainerGap()))
@@ -386,8 +386,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         epcTable.setRowHeight(30);
-        epcTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        epcTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         epcTable.setShowHorizontalLines(true);
         jScrollPane4.setViewportView(epcTable);
 
@@ -467,8 +465,9 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(encryptiontabSessionkeyField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(epcViewMerchantKeyButton))
                     .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(epcAddButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(epcAddButton)
+                .addContainerGap(10, Short.MAX_VALUE))
             .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(encryptionPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -531,6 +530,15 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    @Override
+    public void setVisible(boolean visible) {
+        if (visible) {
+            this.pack();
+            this.setLocationRelativeTo(null);
+        }
+        super.setVisible(visible);
+    }
+    
 
     private void jTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPaneStateChanged
         if (jTabbedPane.getSelectedIndex() == 1) {

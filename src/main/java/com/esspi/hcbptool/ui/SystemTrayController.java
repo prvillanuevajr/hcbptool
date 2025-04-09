@@ -55,8 +55,6 @@ public class SystemTrayController {
             exitTrayMenu.addActionListener(e -> System.exit(0));
 
             showTrayMenu.addActionListener(e -> {
-                MainFrame.getInstance().pack();
-                MainFrame.getInstance().setLocationRelativeTo(null);
                 MainFrame.getInstance().setVisible(Boolean.TRUE);
             });
 
