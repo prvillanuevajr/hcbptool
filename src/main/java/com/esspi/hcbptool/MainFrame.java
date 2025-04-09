@@ -177,7 +177,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tranSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tranDeSelectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(264, 264, 264)
+                .addGap(294, 294, 294)
                 .addComponent(toWorkspaceBtn)
                 .addContainerGap())
             .addGroup(tranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,8 +386,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         epcTable.setRowHeight(30);
-        epcTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        epcTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         epcTable.setShowHorizontalLines(true);
         jScrollPane4.setViewportView(epcTable);
 
@@ -467,8 +465,9 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(encryptiontabSessionkeyField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(epcViewMerchantKeyButton))
                     .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(epcAddButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(epcAddButton)
+                .addContainerGap(10, Short.MAX_VALUE))
             .addGroup(encryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(encryptionPanelLayout.createSequentialGroup()
                     .addContainerGap()
